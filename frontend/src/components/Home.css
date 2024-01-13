@@ -1,0 +1,24 @@
+ *{
+    margin: 0;
+    padding: 0;
+}
+/*
+:root{
+    --nav_background:#fff;
+}
+
+.home-class{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../img/background.jpg")   ;
+    background-size: 50vw 50vh;
+    background-repeat: no-repeat;
+    background-position: right;
+} */
+
+.home-class {
+    min-height: 100vh;
+    background: url('./img/sign.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}

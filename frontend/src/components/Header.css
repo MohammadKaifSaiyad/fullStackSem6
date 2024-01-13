@@ -1,0 +1,127 @@
+
+/* *{
+    margin: 0;
+    padding: 0;
+} */
+
+/* :root{
+    --nav_background:#fff;
+    --nav_text:#6a7489;
+    --nav_text_select:#16df7e;
+}
+
+
+.header{
+    display: flex;
+    background-color: var(--nav_background);
+    font-family: "Open Sans", sans-serif;
+    color: var(--nav_text);
+}
+.fixed-top{
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.nav-logo{
+    width: 40vw;
+    transition:  3s;
+}
+.nav-logo:hover{
+    color: var(--nav_text_select);
+
+}
+
+.nav-class{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+}
+.first-nav > ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    width: 40vw;
+}
+.second-nav > ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 20vw;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul > li{
+    position: relative;
+}
+.link-style{
+    color: var(--nav_text);
+    text-decoration: none;
+    transition: all 0.5s;
+}
+
+.link-style:hover{
+    color: #16df7e;
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+} */
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins",sans-serif;
+}
+
+
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    background: #6b8f24;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.logo{
+    font-size: 32px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.navbar a {
+    position: relative;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 40px;
+}
+
+.navbar a::before{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: .3s;
+}
+
+.navbar a:hover::before {
+    width: 100%;
+}
