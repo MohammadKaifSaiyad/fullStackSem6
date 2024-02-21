@@ -15,6 +15,17 @@ module.exports.checkCookies = (req, res, next)=>{
         });
         return res;
     }
-    if(jwt.verify(req.cookies.jwt, process.env.JWT_SECRET))
-        next();
+    jwt.verify(req.cookies.jwt, process.env.JWT_SECRET,(err, decode)=>{
+        if(err){
+            res.json({
+                status: 'FAILED',
+                message: 'error occure while decoding the jwt token! not a valid user'
+            })
+            return res;
+        }
+        if(decode){
+            req.body.user_id = decode.userId;
+            next();
+        }
+    })
 }

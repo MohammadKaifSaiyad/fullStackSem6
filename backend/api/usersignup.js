@@ -120,7 +120,7 @@ router.post('/usersignup',async (req , res,next)=>{
 })
 
 router.post('/verifyemail',async (req, res, next)=>{
-    // console.log(req.body);
+    console.log('inside verifyemail',req.body);
 
     await usersignup.findOne({userEmail: req.body.email})
     .then(async user=>{
@@ -133,20 +133,26 @@ router.post('/verifyemail',async (req, res, next)=>{
         }
         else{
             if(req.body.code == user.code){
-                const validuser = new loggedinuser({
-                    userName: user.userName,
-                    userEmail: user.userEmail,
-                    hashedPassword: user.hashedPassword,
-                    signupDate: Date.now(),
-                });
-                await validuser.save();
-                await usersignup.deleteMany({});
+                // const validuser = new loggedinuser({
+                //     userName: user.userName,
+                //     userEmail: user.userEmail,
+                //     hashedPassword: user.hashedPassword,
+                //     signupDate: Date.now(),
+                // });
+                // await validuser.save();
+                // user.validate = true;
+                // await user.save();
+                await usersignup.updateOne({userEmail:user.userEmail},{$set:{verified: true}, $currentDate:{lastUpdated: true}})
+                    .then(()=>{
+                        console.log("data is updated to true")
+                    })
+                //await usersignup.deleteMany({});
                 res.status(200).json({
                     status: 'SUCCESS',
                     message: 'now the user will be crated'
                 })
                 return res;
-                // res.redirect('/api/user/createuser');
+                // taking the profile and area name
             }
         }
     })
@@ -156,5 +162,6 @@ router.post('/verifyemail',async (req, res, next)=>{
     return res;
     
 })
+
 
 module.exports  = router

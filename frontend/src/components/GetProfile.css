@@ -1,0 +1,39 @@
+.profile-image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .profile-image {
+    width: 150px; /* Set your desired width */
+    height: 150px; /* Set your desired height */
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .upload-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #3498db; /* Set your desired button color */
+    color: #fff; /* Set your desired text color */
+    padding: 8px 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  /* Optionally, you can add some styles to make it visually appealing */
+  .upload-button:hover {
+    background-color: #2980b9; /* Set your desired hover color */
+  }
+
+  .getprofile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('./img/act_login.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}

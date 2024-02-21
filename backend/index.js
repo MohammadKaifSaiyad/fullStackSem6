@@ -4,12 +4,19 @@ const path = require('path')
 const session = require('express-session')
 const apiRouter = require('./api/usersignup')
 const userRouter = require('./api/user')
+const itemRouter = require('./api/items')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 const cookieParser = require('cookie-parser');
 const app = express();
+const passport = require('passport')
+const authRouter = require('./auth/googlecallback') 
+const fileUpload = require('express-fileupload')
 const port = process.env.PORT || 4000;
+const multer = require('multer');
+const viewItemRouter = require('./api/viewItem')
 
 app.use(session({
     secret: 'your-secret-key', // Change this to a strong secret key
@@ -26,15 +33,31 @@ const checkSession = (req, res, next) => {
         res.status(401).send('Unauthorized');
     }
 };
+
 app.use(cookieParser())
 app.use(urlencodedParser)
 app.use(jsonParser)
-app.use(session({secret: 'cats'}))
+app.use(session({secret: process.env.SESSION_KEY,resave: false,saveUninitialized: true}))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(express.urlencoded())
+app.use(cors())
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage,limits: { fileSize: 5 * 1024 * 1024 } });
+app.use(upload.single('image'));
+// app.use(fileUpload({
+//     useTempFiles:true
+// }))
+
+
+
+
 app.use('/', express.static(path.join(__dirname, 'build')));
 app.use('/api/user',userRouter)
 app.use('/api', apiRouter);
-
+app.use('/auth', authRouter);
+app.use('/items',itemRouter)
+app.use('/api/view',viewItemRouter)
 
 
 

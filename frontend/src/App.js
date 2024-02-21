@@ -6,7 +6,9 @@ import About from './components/About';
 import Signup from './components/Signup';
 import VerifyOpt from './components/VerifyOpt';
 import Login from './components/Login';
-import User from './components/User'
+import UserDashboard from './components/UserDashboard'
+import GetProfile from './components/GetProfile';
+import ViewItem from './components/ViewItem';
 function App() {
   return (
     <div className="App">
@@ -16,9 +18,11 @@ function App() {
         <Route exact path='/aboutus' element={<About/>}/>
         <Route exact path='/signup' element={<Signup/>}/>
         <Route exact path='/verifyotp' element={<VerifyOpt/>}/>
-        <Route exact path='/user' element={<User/>}/>
+        <Route exact path='/user/*' element={<UserDashboard/>}/>
+        <Route exact path='/getprofile' element={<GetProfile/>}/>
         <Route exact path='/signin' element={<Login/>}/>
         <Route exact path='/verifyemail' element={<VerifyOpt/>}/>
+        <Route exact path='/view/itemdetails/:itemId' element={<ViewItem/>}/>
       </Routes>
     </div>
   );

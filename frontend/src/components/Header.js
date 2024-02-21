@@ -28,10 +28,11 @@ function Header(){
     // </div>);
 
     return(<>
-    <header class="header">
+    <header className="header">
         
         {/* <a href="#" class="logo"><img src="New Project.jpg">InventoFlow</a> */}
-        <Link to="/" className='logo'><img src={require('./img/New Project.jpg')}/>InventoFlow</Link>
+        {/* <Link to="/" className='logo'><img src={require('./img/New Project.jpg')}/>InventoFlow</Link> */}
+        <Link to='/'><img className='w-40' src={require('./img/logo-white-transparent.png')}/></Link>
 
         <nav class="navbar">
             <Link to="/">Home</Link>

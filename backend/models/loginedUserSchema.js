@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
+const Area = require('./areaSchema');
 
 /*  valid user data */
 const LoggedinUserSchema = new db.Schema({
@@ -7,18 +8,29 @@ const LoggedinUserSchema = new db.Schema({
         type: String,
         required: true
     },
+    googleSginup:{
+        type: Boolean,
+        default: false
+    },
     userEmail: {
         type: String,
         required: true
     },
     hashedPassword: {
         type: String,
-        required: true
+        required: false
     },
     signupDate: {
         type: Date,
         default: Date.now
-      }
+    },
+    profileImgUrl:{
+        type: String,
+        default:null
+    },
+    areas:{
+        type:[{type: db.Schema.Types.ObjectId, ref: 'Area'}]
+    }
 });
 
 LoggedinUserSchema.methods.generateToken = async function(){
@@ -33,5 +45,5 @@ LoggedinUserSchema.methods.generateToken = async function(){
 };
 
 const LoggedinUserModel = db.model("loggedinuserdata", LoggedinUserSchema);
-
-module.exports = {LoggedinUserModel, LoggedinUserSchema}; 
+module.exports = LoggedinUserModel;
+// module.exports = {LoggedinUserModel, LoggedinUserSchema}; 
