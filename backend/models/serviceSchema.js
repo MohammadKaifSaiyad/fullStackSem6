@@ -3,16 +3,15 @@ const db = require('../config/db');
 const serviceSchema = new db.Schema({
     serviceDate:{
         require: true,
-        type: Date
+        type: String
     },
     operationDate:{
-        require: true,
-        type: Date
+        type: String
     },
     parts:[{
         type:{
             partName:String,
-            partConst:Number
+            partCost:Number
         }
     }],
     serviceType:{
@@ -21,12 +20,15 @@ const serviceSchema = new db.Schema({
     providerDetails:{
         type:{
             name:String,
-            contact:{
-                contactNumber:Number,
-                contactEmail:String
-            },
+            contactNumber:Number,
+            contactEmail:String,
             description:String
         }
+    },
+    completed:Boolean,
+    description:String,
+    item:{
+        type:db.Schema.Types.ObjectId,
     }
 });
 

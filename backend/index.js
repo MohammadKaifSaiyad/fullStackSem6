@@ -16,6 +16,7 @@ const authRouter = require('./auth/googlecallback')
 const fileUpload = require('express-fileupload')
 const port = process.env.PORT || 4000;
 const multer = require('multer');
+// const alertJob = require('./api/alert')
 const viewItemRouter = require('./api/viewItem')
 
 app.use(session({
@@ -33,6 +34,7 @@ const checkSession = (req, res, next) => {
         res.status(401).send('Unauthorized');
     }
 };
+// alertJob.start();
 
 app.use(cookieParser())
 app.use(urlencodedParser)

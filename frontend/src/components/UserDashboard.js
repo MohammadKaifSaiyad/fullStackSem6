@@ -10,6 +10,7 @@ import AddItem from "./AddItem";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import ItemDetails from "./ItemDetails";
+import AddMaintenance from "./AddMaintenance";
 
 function User() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -138,6 +139,7 @@ function User() {
           <Route path="/transaction" element={<>This is transaction</>}></Route>
           <Route path="/additem" element={<AddItem selectedArea={selectedArea} itemData={itemData} setItemData={setItemData} fetchItemsByArea={fetchItemsByArea}/>}></Route>
           <Route path="/item" element={<ItemDetails selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
+          <Route path="item/addmaintenance" element={<AddMaintenance selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>} />
           <Route path="/item/:itemId" element={<ItemDetails selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
           {/* </Route> */}
         </Routes>

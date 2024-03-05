@@ -2,7 +2,8 @@ const router = require('express').Router()
 const bodyParser = require('body-parser')
 const loggedinuser = require('../models/loginedUserSchema');
 const usersignup = require('../models/usersignupSchema')
-const nodemailer = require('nodemailer')
+// const nodemailer = require('nodemailer')
+const transporter = require('./transporter')
 const speakeasy = require('speakeasy');
 const axios = require('axios');
 
@@ -13,22 +14,7 @@ const axios = require('axios');
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-let transporter = nodemailer.createTransport({
-    service: "gmail",
-    port:3000,
-    auth:{
-        user: process.env.AUTH_EMAIL,
-        pass: process.env.AUTH_PASS,
-    }
-})
 
-transporter.verify((err, success) =>{
-    if(err){
-        console.log(err)
-    } else{
-        console.log("Ready to send mail")
-    }
-})
 
 const sendMailOnEmail = async (email, code)=>{
     console.log("inside sendMial")

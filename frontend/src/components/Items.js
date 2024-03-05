@@ -138,6 +138,7 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
               {/* <MdQrCodeScanner size='40'/> */}
             </div>
             <div className="overflow-hidden">
+            <Card>
             <List className="overflow-y-scroll w-5/6 ">
               <div className="h-96">
                 {
@@ -148,6 +149,7 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
               }
               </div>
             </List>
+            </Card>
             </div>
           </Card>
         </div>

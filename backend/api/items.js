@@ -6,6 +6,8 @@ const { checkCookies } = require('../auth/checkCookies');
 const jwt = require('jsonwebtoken');
 const LoggedinUserModel = require('../models/loginedUserSchema');
 const QRCode = require('qrcode');
+const serviceModel = require('../models/serviceSchema');
+const { json } = require('body-parser');
 
 router.post('/getareas',checkCookies ,async (req, res)=>{
     await loggedinuser.findById(req.body.user_id).populate('areas','name')
@@ -201,8 +203,8 @@ router.post('/getitems',async (req, res)=>{
     return res;
 })
 
-router.post('/getitem',checkCookies ,(req, res)=>{
-    itemModel.findById(req.body.item_id)
+router.post('/getitem',checkCookies ,async (req, res)=>{
+    itemModel.findById(req.body.item_id).populate('servicesHistory').populate('servicePending')
     .then(item=>{
         if(!item){
             res.json({
@@ -225,7 +227,7 @@ router.post('/getitem',checkCookies ,(req, res)=>{
     }).catch(err=>{
         res.json({
             status: 'FAILED',
-            message: 'Error while fetching item detail!'
+            message: 'Error while fetching item detail at backend!'
         })
     })
 })
@@ -353,5 +355,121 @@ router.post('/getitemforview', (req, res)=>{
         })
         
     })
+})
+
+router.post('/addmaintenance', async(req, res)=>{
+    console.log('inside addmaintenance: ',req.body);
+    try{
+        const newService = new serviceModel({
+            serviceDate:req.body.service_date,
+            serviceType:req.body.service_type,
+            parts:req.body.service_parts,
+            providerDetails:{
+                name:req.body.provider_name,
+                contactNumber:req.body.provider_number,
+                contactEmail:req.body.provider_email,
+                description:req.body.provider_details,
+            },
+            description:req.body.service_description
+        })
+        console.log(newService);
+        const maintenance = await newService.save();
+        if(!maintenance){
+            res.json({
+                status:'FAILED',
+                message:'cannot add maintenance!'
+            })
+            return res;
+        }
+        const item = await itemModel.findById(req.body.item_id);
+        if(!item){
+            res.json({
+                status:'FAILED',
+                message:'cannot add maintenance!'
+            })
+            return res;
+        }
+        maintenance.item = item._id;
+        await maintenance.save();
+        if(new Date( req.body.service_date).toISOString().slice(0,10) <=new Date().toISOString().slice(0,10)){
+            await item.servicesHistory.push(maintenance._id);
+            maintenance.completed = true;
+        }
+        else{
+            await item.servicePending.push(maintenance._id);
+            maintenance.completed = false;
+        }
+        await maintenance.save();
+        const result = await item.save();
+        if(result){
+            res.json({
+                status:'SUCCESS',
+                item_detail:result
+            })
+        }
+    }
+    catch(err){
+        console.log('Error while adding maintenance:',err);
+        res.json({
+            status:'FAILED',
+            message:'Error while adding maintenance!'
+        })
+        return res;
+    }
+    return res;
+})
+
+router.post('/getservices', (req, res)=>{
+    try{
+        const service = serviceModel.findById('65dff7e36a6a3cf873f87374').populate('parts')
+        .then(service=>{
+            if(!service){
+                res.json({
+                    status:'FAILED',
+                    message: 'no service data!',
+                })
+            }
+            res.json({
+                data: service,
+            })
+        })
+    }catch(err){
+        res.json({
+            status:'FAILED',
+            message:'Error while fetching services!'
+        })
+        console.log('Error while fetching services', err);
+        return res;
+    }
+    return res;
+})
+
+router.post('/deleteservice', async(req, res)=>{
+    try{
+        console.log(req.body);
+        const item = await itemModel.findById(req.body.item_id);
+        if(!item){
+            res.json({
+                status:'FAILED',
+                message:'no such item found in database!'
+            })
+            return res;
+        }
+        await item.servicePending.filter(service=> service._id != req.body.service_id);
+        console.log('after delete: ', await serviceModel.findByIdAndDelete(req.body.service_id))
+        item.save();
+        res.json({
+            status:'SUCCESS',
+            message:'service deleted successfully!'
+        })
+        return res;
+    }catch(err){
+        res.json({
+            status:'FAILED',
+            message:'Error while deleting service!'
+        })
+        console.log('Error while deleting service',err);
+    }
+    
 })
 module.exports = router;

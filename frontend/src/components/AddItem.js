@@ -102,32 +102,6 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea}) {
       console.log(err);
     }
     
-    // fetch('/items/additem',{
-    //   method:"POST",
-    //   headers: {
-    //     'Content-Type': `multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW`
-    //   },
-    //   body: formData
-    // }).then(res=>res.json())
-    // .then(async resdata=>{
-    //   if(resdata.status ==='SUCCESS'){
-    //     console.log('selectedArea inside additems component:',selectedArea)
-        //  await fetchItemsByArea(selectedArea);
-        // setItemData({
-        //   item_name:"",
-        //   serial_number:"",
-        //   installation_date:"",
-        //   area_id:"",
-        //   img_file:null,
-        //   generate_qr:false
-        // })
-        // navigate('/user/items');
-        
-    //   }
-      // else{
-      //   toast.error(resdata.message);
-      // }
-    // })
   }
   return (
     <div className="bg-zinc-700 h-full">

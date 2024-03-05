@@ -1,6 +1,7 @@
 const db = require('../config/db');
 const QRCode = require('qrcode');
 const { v4: uuidv4 } = require('uuid');
+const Service = require('./serviceSchema')
 
 //name, installation, area,user, maintenance as model
 
@@ -10,7 +11,7 @@ const ItemSchema = new db.Schema({
         require: true
     },
     installationDate:{
-        type: Date,
+        type: String,
         require: true,
     },
     count:{

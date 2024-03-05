@@ -21,6 +21,7 @@ import {
 } from "@material-tailwind/react";
 import { toast ,ToastContainer} from "react-toastify";
 import axios from "axios";
+import ServiceItem from "./ServiceItem";
 
 
 
@@ -69,6 +70,29 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
     fetchGenerateQRAPI();
   }
 
+  const fetchItemDetails = async()=>{
+    console.log('inside fetch item details', selectedItem);
+    const options = {
+      method:'POST',
+      headers:{'content-type': 'application/json'},
+      body:await JSON.stringify({item_id:selectedItem ? selectedItem._id:null})
+    }
+    fetch('/items/getitem',options)
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.status ==='SUCCESS'){
+        setSelectedItem(data.item_detail)
+        setServiceList(data.item_detail.servicePending);
+        navigate('/user/item');
+      }else{
+        toast.error(data.message);
+      }
+    })
+    .catch(err=>{
+      toast.error('Error while retrieving item Details!')
+    })
+  }
+
   const fetchItemByQr =async ()=>{
     const option = {
       method:'POST',
@@ -97,11 +121,56 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
       fetchItemByQr();
     }
   }
-
+  const fetchHistory = async() => {
+    const options = {
+      method:'POST',
+      headers:{'content-type': 'application/json'},
+      body:await JSON.stringify()
+    }
+    fetch('/items/getservices', options)
+    .then(res => res.json())
+    .then(data =>{
+      if(data.status = 'SUCCESS'){
+        setServiceList();
+      }else{
+        toast.error(data.message);
+      }
+    })
+  }
   useEffect(()=>{
     checkParam();
   },[])
-
+  const [showHistory, setShowHistory] = useState(false);
+  const [serviceList, setServiceList] = useState(selectedItem ? selectedItem.servicePending : null);
+  const [selectedService, setSelectedService] = useState(null);
+  const handleEditItemDetails = ()=>{
+    navigate('/user/additem');
+  }
+  const deleteService = async(serviceId) => {
+    const body = {
+      item_id: selectedItem._id,
+      service_id: serviceId
+    }
+    const options = {
+      method:'POST',
+      headers:{'content-type': 'application/json'},
+      body:await JSON.stringify(body)
+    }
+    fetch('/items/deleteservice', options)
+    .then(res => res.json())
+    .then(async data => {
+      if(data.status === 'SUCCESS'){
+        //fectch item details again();
+        await fetchItemDetails();
+        console.log('fectch item details again();');
+      }else{
+        toast.error(data.message);
+      }
+    })
+  }
+  useEffect(()=>{
+    fetchItemDetails();
+  },[])
   return (
     <>
     
@@ -128,7 +197,7 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
           <div className="font-sans text-xl ml-4 mt-3 w-5/6">
             Item information
           </div>
-          <MdEdit className="mt-5 ml-20 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointerr" />
+          <MdEdit className="mt-5 ml-20 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleEditItemDetails}/>
           <MdOutlineQrCode className="mt-5 ml-2 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleGenerateQR}/>
           <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 cursor-pointer" />
         </div>
@@ -179,18 +248,15 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
         </Card>
       </div>
       <div className="w-3/6 m-5">
-        <Card className="overflow-y-scroll rounded shadow-lg m-auto mt-20">
+        <Card className=" overflow-hidden rounded shadow-lg m-auto mt-20">
           <div className="font-sans text-xl ml-4 my-4">Maintenance</div>
-
+      
           <div class="sm:hidden">
             <label for="tabs" class="sr-only">
               Select your country
             </label>
             <select
               id="tabs"
-              onChange={(e) => {
-                console.log(e.target.value);
-              }}
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="history">History</option>
@@ -202,7 +268,10 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
               <a
                 class="inline-block cursor-pointer w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={() => {
-                  console.log("history");
+                  setShowHistory(true)
+                  console.log(selectedItem);
+                  // fetchHistory();
+                  setServiceList(selectedItem.servicesHistory);
                 }}
               >
                 History
@@ -212,14 +281,23 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
               <a
                 class="inline-block w-full cursor-pointer p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={() => {
-                  console.log("pending");
+                  setShowHistory(false);
+                  setServiceList(selectedItem.servicePending);
+                  // fetchHistory();
                 }}
               >
                 Pending
               </a>
             </li>
           </ul>
-          <div>history</div>
+          <List className="h-96 overflow-y-scroll">
+          {
+            serviceList?
+            <div>
+                {serviceList && serviceList.map((service, index) => (<ServiceItem key={service._id} service={service} showHistory={showHistory} deleteService={deleteService} setSelectedService={setSelectedService}/>))}
+            </div>
+            : "no service History"
+          }</List>
         </Card>
       </div>
     </div>
