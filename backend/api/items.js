@@ -257,8 +257,42 @@ router.post('/search/:key',checkCookies, async(req,res)=>{
 
 })
 
-router.post('/deleteitem',(req, res)=>{
-    
+router.post('/deleteitem',checkCookies,async (req, res)=>{
+    console.log('inside delete item')
+    try{
+        const area = await areaModel.findById(req.body.area_id);
+        if(!area){
+            res.json({
+                status:'FAILED',
+                message:'no such area found in database!'
+            })
+            return res;
+        }
+        await area.items.filter(item=>req.body.item_id != item._id);
+        await itemModel.findByIdAndDelete(req.body.item_id);
+        const newArea = await area.save();
+        console.log('new area datad: ', newArea);
+        if(!newArea){
+            res.json({
+                status:'FAILED',
+                message:'no such area found in database!'
+            })
+            return res;
+        }
+        res.json({
+            status:'SUCCESS',
+            message:'item deleted successfully form area!'
+        })
+        return res;
+    }catch(err){
+        res.json({
+            status:'FAILED',
+            message:'Error while deleting item!'
+        })
+        return res;
+        console.log('error while deleting item', err);
+    }
+    return res;
 })
 
 router.get('/generateqr/:item_id', async(req, res)=>{

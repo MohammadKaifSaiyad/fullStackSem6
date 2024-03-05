@@ -25,7 +25,7 @@ import ServiceItem from "./ServiceItem";
 
 
 
-function ItemDetails({ selectedItem, setSelectedItem}) {
+function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsByArea}) {
   const [isQRAvailable, setIsQRAvailable] = useState(false);
   const [qrData, setQrData] = useState(false);
   const navigate = useNavigate();
@@ -121,6 +121,26 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
       fetchItemByQr();
     }
   }
+  const handleDeleteItem =async()=>{
+    const data={item_id:selectedItem._id, area_id:selectedItem.area}
+    console.log('calling delete api:', data);
+    const options = {
+      method:'POST',
+      headers:{'content-type': 'application/json'},
+      body: await JSON.stringify(data)
+    }
+    fetch('/items/deleteitem',options)
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.status === 'SUCCESS'){
+        toast.success('item Deleted!');
+        fetchItemsByArea(selectedItem.area);
+        navigate('/user/items');
+      }else{
+        toast.error(data.message);
+      }
+    })
+  }
   const fetchHistory = async() => {
     const options = {
       method:'POST',
@@ -144,6 +164,7 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
   const [serviceList, setServiceList] = useState(selectedItem ? selectedItem.servicePending : null);
   const [selectedService, setSelectedService] = useState(null);
   const handleEditItemDetails = ()=>{
+    setEdit(true);
     navigate('/user/additem');
   }
   const deleteService = async(serviceId) => {
@@ -199,7 +220,7 @@ function ItemDetails({ selectedItem, setSelectedItem}) {
           </div>
           <MdEdit className="mt-5 ml-20 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleEditItemDetails}/>
           <MdOutlineQrCode className="mt-5 ml-2 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleGenerateQR}/>
-          <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 cursor-pointer" />
+          <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleDeleteItem}/>
         </div>
         <Card className="mt-2 ml-4 flex">
           <div className="flex flex-row mt-5">

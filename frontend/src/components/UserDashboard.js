@@ -27,6 +27,7 @@ function User() {
     area_location:""
   });
   const [itemList, setItemList]=useState(false);
+  const [edit, setEdit] = useState(false);
   const [itemData, setItemData] = useState({
     item_name:"",
     serial_number:"",
@@ -105,7 +106,6 @@ function User() {
 
   
   useEffect(() => {
-    
     fetchUserAreas();
   },[]);
   useEffect(()=>{
@@ -134,11 +134,11 @@ function User() {
             path="/items"
             element={<Items setItemList={setItemList} selectedArea={selectedArea} itemList={itemList} fetchItemsByArea={fetchItemsByArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}
           ></Route>
-          <Route path="/addarea" element={<AddArea fetchUserAreas={fetchUserAreas} setAreaData={setAreaData} areaData={areaData} />}></Route>
+          <Route path="/addarea" element={<AddArea edit={edit} setEdit={setEdit} fetchUserAreas={fetchUserAreas} setAreaData={setAreaData} areaData={areaData} />}></Route>
           <Route path="/generateqr" element={<>This is qr</>}></Route>
           <Route path="/transaction" element={<>This is transaction</>}></Route>
-          <Route path="/additem" element={<AddItem selectedArea={selectedArea} itemData={itemData} setItemData={setItemData} fetchItemsByArea={fetchItemsByArea}/>}></Route>
-          <Route path="/item" element={<ItemDetails selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
+          <Route path="/additem" element={<AddItem edit={edit} setEdit={setEdit} selectedArea={selectedArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem} itemData={itemData} setItemData={setItemData} fetchItemsByArea={fetchItemsByArea}/>}></Route>
+          <Route path="/item" element={<ItemDetails fetchItemsByArea={fetchItemsByArea} edit={edit} setEdit={setEdit} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
           <Route path="item/addmaintenance" element={<AddMaintenance selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>} />
           <Route path="/item/:itemId" element={<ItemDetails selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
           {/* </Route> */}

@@ -1,4 +1,4 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef, useEffect} from "react";
 import { toast ,ToastContainer} from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import imageCompression from 'browser-image-compression';
@@ -7,9 +7,10 @@ const crypto = require('crypto-js');
 
 // Generate a random boundary string
 // const boundary = `----${crypto.random(16).toString('hex')}`;
-function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea}) {
+function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSelectedItem, selectedItem, edit, setEdit}) {
   const navigate = useNavigate();
   const imgRef = useRef(null);
+  const [update, setUpdate] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const handleChange=(e)=>{
     if(e.target.type ==="checkbox"){
@@ -54,6 +55,45 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea}) {
     await compressImage(e.target.files[0]);
     // setItemData((prev)=>({...prev, img_file:e.target.files[0]}))
   }
+  const handleUpdateItem = async(e)=>{
+    e.preventDefault();
+    if(checkItemData() === 1)
+      return;
+    console.log('handle update item is call', itemData);
+    const formData = new FormData();
+    formData.append('image', selectedImage);
+    formData.append('image_url', selectedItem.imageUrl?selectedItem.imageUrl:null);
+    formData.append('item_name', itemData.item_name);
+    formData.append('item_id', selectedItem._id);
+    formData.append('serial_number', itemData.serial_number);
+    formData.append('installation_date', itemData.installation_date);
+    formData.append('generate_qr', itemData.generate_qr);
+    formData.append('area_id',selectedArea);
+    try{
+      await axios.post('http://localhost:5000/api/user/additem', formData, {})
+      .then(res=>res.data)
+      .then(data=>{
+        if(data.status==='SUCCESS'){
+          fetchItemsByArea(selectedArea);
+          setItemData({
+          item_name:"",
+          serial_number:"",
+          installation_date:"",
+          area_id:"",
+          img_file:null,
+          generate_qr:false
+        })
+        setUpdate(false);
+        navigate('/user/items');
+        }else{
+          toast.error(data.message);
+        }
+      })
+    }catch(err){
+      console.log(err);
+      toast.error('Update failed!')
+    }
+  }
   const handleAddItem = async(e)=>{
     e.preventDefault();
     if(checkItemData() === 1)
@@ -63,11 +103,11 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea}) {
     // setItemData(async previous=>({...previous, img_file: await selectedImage}))
     const formData = new FormData();
     formData.append('image', selectedImage);
-  formData.append('item_name', itemData.item_name);
-  formData.append('serial_number', itemData.serial_number);
-  formData.append('installation_date', itemData.installation_date);
-  formData.append('generate_qr', itemData.generate_qr);
-  formData.append('area_id',selectedArea);
+    formData.append('item_name', itemData.item_name);
+    formData.append('serial_number', itemData.serial_number);
+    formData.append('installation_date', itemData.installation_date);
+    formData.append('generate_qr', itemData.generate_qr);
+    formData.append('area_id',selectedArea);
     console.log("selectedImage in from",selectedImage);
     const data = await JSON.stringify(itemData);
     console.log('values of item:',itemData,itemData.img_file);
@@ -103,10 +143,49 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea}) {
     }
     
   }
+  const fillTheFields=()=>{
+    const fillData = {
+      item_name:selectedItem.name,
+      serial_number:selectedItem.serialNumber,
+      installation_date:selectedItem.installationDate,
+      area_id:selectedItem.area,
+      img_file:selectedItem.imageUrl,
+      generate_qr:selectedItem.qrCode && true
+    }
+    setUpdate(true);
+    setItemData(fillData);
+  }
+  useEffect(()=>{
+    console.log(selectedItem);
+    if(edit){
+      fillTheFields();
+    }
+    else{
+      setItemData({
+        item_name:'',
+      serial_number:'',
+      installation_date:'',
+      area_id:'',
+      img_file:'',
+      generate_qr:''
+      })
+    }
+    return () => {
+      setItemData({
+        item_name: '',
+        serial_number: '',
+        installation_date: '',
+        area_id: '',
+        img_file: '',
+        generate_qr: false
+      });
+      setEdit(false);
+    };
+  },[])
   return (
     <div className="bg-zinc-700 h-full">
       <ToastContainer/>
-      <form class="mx-12 my-12" onSubmit={handleAddItem} encType='multipart/form-data'>
+      <form class="mx-12 my-12" onSubmit={update? handleUpdateItem : handleAddItem} encType='multipart/form-data'>
         <div className="flex">
           <div class="mb-5 mr-20 w-80">
             <label
@@ -197,7 +276,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea}) {
           class="text-white mt-2 bg-gray-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           
         >
-          Add
+          {update? "Update":"Add"}
         </button>
       </form>
     </div>
