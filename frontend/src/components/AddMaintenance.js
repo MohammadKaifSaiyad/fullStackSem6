@@ -305,7 +305,7 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
             </label>
             <div className="flex">
               <input
-                type="text"
+                type="number"
                 name="provider_number"
                 value={serviceData.provider_number}
                 onChange={handleChange}

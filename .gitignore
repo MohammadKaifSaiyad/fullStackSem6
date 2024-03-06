@@ -7,7 +7,7 @@ backend/package-lock.json
 frontend/package-lock.json
 backend/.env
 frontend/.env
-backend/api/googledrive.json
+backend/googledrive.json
 /.pnp
 .pnp.js
 

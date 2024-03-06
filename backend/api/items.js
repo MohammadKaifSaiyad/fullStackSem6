@@ -268,17 +268,9 @@ router.post('/deleteitem',checkCookies,async (req, res)=>{
             })
             return res;
         }
-        await area.items.filter(item=>req.body.item_id != item._id);
+        await area.items.filter(item=> item._id != req.body.item_id);
         await itemModel.findByIdAndDelete(req.body.item_id);
-        const newArea = await area.save();
-        console.log('new area datad: ', newArea);
-        if(!newArea){
-            res.json({
-                status:'FAILED',
-                message:'no such area found in database!'
-            })
-            return res;
-        }
+        await area.save();
         res.json({
             status:'SUCCESS',
             message:'item deleted successfully form area!'
@@ -474,7 +466,7 @@ router.post('/addmaintenance', async(req, res)=>{
                 maintenance.completed = false;
             }
             await maintenance.save();
-            const result = await item.save().populate('servicesHistory').populate('servicePending');
+            const result = await item.save();
             if(result){
                 res.json({
                     status:'SUCCESS',
