@@ -68,7 +68,8 @@ function GetProfile() {
       console.log("user data of getprofile ",selectedFile, area);
       
       try {
-        await axios.post('http://localhost:5000/api/user/createloggedinuser',formData,{
+        // await axios.post('http://localhost:5000/api/user/createloggedinuser',formData,{
+          await axios.post('https://inventoflow.onrender.com/api/user/createloggedinuser',formData,{
           // headers: {
           //   'Content-Type': 'multipart/form-data',
           // },
