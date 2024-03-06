@@ -25,7 +25,7 @@ import ServiceItem from "./ServiceItem";
 
 
 
-function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsByArea}) {
+function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsByArea, selectedService, setSelectedService}) {
   const [isQRAvailable, setIsQRAvailable] = useState(false);
   const [qrData, setQrData] = useState(false);
   const navigate = useNavigate();
@@ -162,7 +162,7 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
   },[])
   const [showHistory, setShowHistory] = useState(false);
   const [serviceList, setServiceList] = useState(selectedItem ? selectedItem.servicePending : null);
-  const [selectedService, setSelectedService] = useState(false);
+  
   const handleEditItemDetails = ()=>{
     setEdit(true);
     navigate('/user/additem');
@@ -191,6 +191,9 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
         toast.error(data.message);
       }
     })
+  }
+  function getSum(inti,part){
+    return inti+part.partCost;
   }
   useEffect(()=>{
     fetchItemDetails();
@@ -318,7 +321,7 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
           {
             serviceList?
             <div>
-                {serviceList && serviceList.map((service, index) => (<ServiceItem key={service._id} service={service} showHistory={showHistory} deleteService={deleteService} selectedService={selectedService} setSelectedService={setSelectedService}/>))}
+                {serviceList && serviceList.map((service, index) => (<ServiceItem key={service._id} service={service} showHistory={showHistory} deleteService={deleteService} setEdit={setEdit} selectedService={selectedService} setSelectedService={setSelectedService}/>))}
             </div>
             : "no service History"
           }</List>
@@ -335,16 +338,17 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
       <div className='flex flex-col justify-center ms-2'>
         <p className='text-black m-2'>serviceDate: {selectedService.serviceDate}</p>
         <p className='text-black m-2'>serviceType: {selectedService.serviceType}</p>
+        <p className='text-black m-2'>serviceDescription: {selectedService.description}</p>
         {
         selectedService.parts[0]?
         <div className='flex flex-col justify-center ms-2'>
         <div className="border border-black rounded-2">
         <div className='text-black text-lg m-2'>service parts</div>
-         {selectedService.parts.map(part=><div>
+         {selectedService.parts.map(part=><div className="flex">
           <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
           <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
          </div>)}
-        
+        <div className="ml-4">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
         </div>
       </div>:<></>
       }

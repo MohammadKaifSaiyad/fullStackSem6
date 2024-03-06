@@ -3,7 +3,7 @@ import React from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-function ServiceItem({ service, showHistory, deleteService, setSelectedService, selectedService }) {
+function ServiceItem({ service, showHistory, setEdit, deleteService, setSelectedService, selectedService }) {
   const naviagte = useNavigate();
   const handleDeleteService = (e)=>{
     setSelectedService(e.target.key);
@@ -14,6 +14,12 @@ function ServiceItem({ service, showHistory, deleteService, setSelectedService, 
     console.log('selected serivce: ', service._id);
     setSelectedService(service);
   }
+  const handleEditService =()=>{
+    setSelectedService(service);
+    setEdit(true);
+    console.log('selected service', service._id);
+    naviagte('/user/item/addmaintenance')
+  }
   return (
     <div className="flex h-12 flex-row">
       <ListItem className="h-12 flex" onClick={handleShowService}>
@@ -22,7 +28,7 @@ function ServiceItem({ service, showHistory, deleteService, setSelectedService, 
       </ListItem> 
       {showHistory ? null : (
         <ListItemSuffix className="flex flex-row items-center justify-items-center">
-          <MdEdit className="cursor-pointer m-1 h-5 w-5" />
+          <MdEdit className="cursor-pointer m-1 h-5 w-5" onClick={handleEditService}/>
           <MdDelete className="cursor-pointer m-1 h-5 w-5" onClick={handleDeleteService} />
         </ListItemSuffix>
       )}

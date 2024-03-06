@@ -393,8 +393,10 @@ router.post('/getitemforview', (req, res)=>{
 
 router.post('/addmaintenance', async(req, res)=>{
     console.log('inside addmaintenance: ',req.body);
-    try{
-        const newService = new serviceModel({
+    console.log('service id', req.body.service_id && true)
+    if(req.body.service_id && true){
+        console.log('inside update maintenance');
+        const newService = {
             serviceDate:req.body.service_date,
             serviceType:req.body.service_type,
             parts:req.body.service_parts,
@@ -405,51 +407,91 @@ router.post('/addmaintenance', async(req, res)=>{
                 description:req.body.provider_details,
             },
             description:req.body.service_description
-        })
-        console.log(newService);
-        const maintenance = await newService.save();
-        if(!maintenance){
+        }
+        console.log('new serivce:', newService);
+        const service = await serviceModel.findByIdAndUpdate(req.body.service_id, newService, {new:false});
+        console.log('new Service: ', service);
+        if(!service){
             res.json({
                 status:'FAILED',
-                message:'cannot add maintenance!'
+                message:'cannot update maintenance!'
             })
             return res;
         }
-        const item = await itemModel.findById(req.body.item_id);
+        const item = await itemModel.findById(req.body.item_id).populate('servicesHistory').populate('servicePending')
         if(!item){
             res.json({
                 status:'FAILED',
-                message:'cannot add maintenance!'
+                message:'cannot find item for updating maintenance!'
             })
             return res;
         }
-        maintenance.item = item._id;
-        await maintenance.save();
-        if(new Date( req.body.service_date).toISOString().slice(0,10) <=new Date().toISOString().slice(0,10)){
-            await item.servicesHistory.push(maintenance._id);
-            maintenance.completed = true;
-        }
-        else{
-            await item.servicePending.push(maintenance._id);
-            maintenance.completed = false;
-        }
-        await maintenance.save();
-        const result = await item.save();
-        if(result){
-            res.json({
-                status:'SUCCESS',
-                item_detail:result
-            })
-        }
-    }
-    catch(err){
-        console.log('Error while adding maintenance:',err);
         res.json({
-            status:'FAILED',
-            message:'Error while adding maintenance!'
+            status:'SUCCESS',
+            item_detail:item
         })
         return res;
+    }else{
+        console.log('inside add maintenance');
+        try{
+            const newService = new serviceModel({
+                serviceDate:req.body.service_date,
+                serviceType:req.body.service_type,
+                parts:req.body.service_parts,
+                providerDetails:{
+                    name:req.body.provider_name,
+                    contactNumber:req.body.provider_number,
+                    contactEmail:req.body.provider_email,
+                    description:req.body.provider_details,
+                },
+                description:req.body.service_description
+            })
+            console.log(newService);
+            const maintenance = await newService.save();
+            if(!maintenance){
+                res.json({
+                    status:'FAILED',
+                    message:'cannot add maintenance!'
+                })
+                return res;
+            }
+            const item = await itemModel.findById(req.body.item_id);
+            if(!item){
+                res.json({
+                    status:'FAILED',
+                    message:'cannot add maintenance!'
+                })
+                return res;
+            }
+            maintenance.item = item._id;
+            await maintenance.save();
+            if(new Date( req.body.service_date).toISOString().slice(0,10) <=new Date().toISOString().slice(0,10)){
+                await item.servicesHistory.push(maintenance._id);
+                maintenance.completed = true;
+            }
+            else{
+                await item.servicePending.push(maintenance._id);
+                maintenance.completed = false;
+            }
+            await maintenance.save();
+            const result = await item.save().populate('servicesHistory').populate('servicePending');
+            if(result){
+                res.json({
+                    status:'SUCCESS',
+                    item_detail:result
+                })
+            }
+        }
+        catch(err){
+            console.log('Error while adding maintenance:',err);
+            res.json({
+                status:'FAILED',
+                message:'Error while adding maintenance!'
+            })
+            return res;
+        }
     }
+    
     return res;
 })
 

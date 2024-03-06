@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMinus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { IoInformation } from "react-icons/io5";
 import {toast, ToastContainer} from 'react-toastify';
-function AddMaintenance({selectedItem, setSelectedItem}) {
+function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedService, setSelectedService}) {
   const [parts, setParts] = useState([]);
   const [maxPart, setMaxPart] = useState(0);
+  const [editService, setEditService] = useState(false);
   const [serviceData, setServiceData] = useState({
     "item_id":selectedItem? selectedItem._id: null,
     "service_date":"",
@@ -48,6 +49,43 @@ function AddMaintenance({selectedItem, setSelectedItem}) {
   const fetchAddMaintenance = async()=>{
     
   }
+  const handleUpdateMaintenance =async (e)=>{
+    e.preventDefault();
+    console.log("data to be update:", serviceData);
+    const serdata = {...serviceData, "item_id":selectedItem? selectedItem._id: null,};
+    // serdata.service_id = selectedService._id;
+    console.log('serdata: ', serdata);
+    const options={
+      method: 'POST',
+      headers:{
+        'content-type': 'application/json'
+      },
+      body: await JSON.stringify({...serdata})
+    }
+    fetch('/items/addmaintenance', options)
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.status === 'SUCCESS'){
+        setSelectedItem(data.item_detail);
+        navigate('/user/item');
+      }
+      else{
+        toast.error(data.message);
+      }
+    })
+    setServiceData({
+      "service_date":"",
+      "service_type":"",
+      "service_parts":[],
+      "service_description":"",
+      "provider_name":"",
+      "provider_email":"",
+      "provider_number":"",
+      "provider_details":""
+    })
+    setParts([]);
+  }
+
   const handleAddMaintenance = async(e)=>{
     e.preventDefault();
     console.log("recived data:", serviceData);
@@ -83,10 +121,47 @@ function AddMaintenance({selectedItem, setSelectedItem}) {
     })
     setParts([]);
   }
+  const fillService=()=>{
+    setEditService(true);
+    setParts([...selectedService.parts]);
+    setServiceData({
+      "service_id":selectedService._id,
+      "service_date":selectedService.serviceDate,
+      "service_type":selectedService.serviceType,
+      "service_parts":[...selectedService.parts],
+      "service_description":selectedService.description,
+      "provider_name":selectedService.providerDetails.name,
+      "provider_email":selectedService.providerDetails.contactEmail,
+      "provider_number":selectedService.providerDetails.contactNumber,
+      "provider_details":selectedService.providerDetails.description
+    })
+    
+  }
+  useEffect(()=>{
+    if(edit){
+      console.log('selected service for editing: ', selectedService._id)
+      fillService();
+    }
+    return ()=>{
+      setServiceData({
+        "service_date":"",
+        "service_type":"",
+        "service_parts":[],
+        "service_description":"",
+        "provider_name":"",
+        "provider_email":"",
+        "provider_number":"",
+        "provider_details":""
+      })
+      setParts([]);
+      setEdit(false);
+      setSelectedService(null);
+    }
+  },[]);
   return (
     <div className="ml-10 mt-10">
       <ToastContainer/>
-      <form className="border rounded-lg border-gray-500 p-5 mr-10" onSubmit={handleAddMaintenance}>
+      <form class="border rounded-lg border-gray-500 p-5 mr-10" onSubmit={editService? handleUpdateMaintenance: handleAddMaintenance}>
         <div className="flex">
           <div class="mb-5 w-80 mr-10">
             <label
@@ -203,7 +278,7 @@ function AddMaintenance({selectedItem, setSelectedItem}) {
               type="submit"
               className="mt-5 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-5"
             >
-              Add Maintenance
+              {editService?"Update Maintenance":"Add Maintenance"}
             </button>
           </div>
 

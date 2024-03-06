@@ -19,6 +19,7 @@ function User() {
     console.log("making the request");
     setIsDataLoaded(true);
   };
+  const [selectedService, setSelectedService] = useState(false);
   const [areaList, setAreaList] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedItem, setSelectedItem] = useState();
@@ -138,8 +139,8 @@ function User() {
           <Route path="/generateqr" element={<>This is qr</>}></Route>
           <Route path="/transaction" element={<>This is transaction</>}></Route>
           <Route path="/additem" element={<AddItem edit={edit} setEdit={setEdit} selectedArea={selectedArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem} itemData={itemData} setItemData={setItemData} fetchItemsByArea={fetchItemsByArea}/>}></Route>
-          <Route path="/item" element={<ItemDetails fetchItemsByArea={fetchItemsByArea} edit={edit} setEdit={setEdit} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
-          <Route path="item/addmaintenance" element={<AddMaintenance selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>} />
+          <Route path="/item" element={<ItemDetails selectedService={selectedService} setSelectedService={setSelectedService} fetchItemsByArea={fetchItemsByArea} edit={edit} setEdit={setEdit} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
+          <Route path="item/addmaintenance" element={<AddMaintenance selectedItem={selectedItem} setSelectedService={setSelectedService} edit={edit} setEdit={setEdit} setSelectedItem={setSelectedItem} selectedService={selectedService}/>} />
           <Route path="/item/:itemId" element={<ItemDetails selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
           {/* </Route> */}
         </Routes>

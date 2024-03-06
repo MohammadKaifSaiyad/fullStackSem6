@@ -235,7 +235,8 @@ router.post("/getuserdata", checkCookies, (req, res) => {
   });
 });
 
-const keyFile = require("./googledrive.json");
+// const keyFile = require("./googledrive.json");
+const keyFile = require("./etc/secrets/googledrive.json")
 const { json } = require("body-parser");
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
 
