@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from "react";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineQrCode, MdOutlineArrowBack, MdDelete } from "react-icons/md";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {IoCloseOutline} from 'react-icons/io5'
 import {
   List,
@@ -162,11 +162,14 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
   },[])
   const [showHistory, setShowHistory] = useState(false);
   const [serviceList, setServiceList] = useState(selectedItem ? selectedItem.servicePending : null);
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedService, setSelectedService] = useState(false);
   const handleEditItemDetails = ()=>{
     setEdit(true);
     navigate('/user/additem');
   }
+  const composeEmail = () => {
+    window.location.href = `mailto:${selectedService.providerDetails.contactEmail}?subject=${encodeURIComponent("subject")}&body=${encodeURIComponent("body")}`;
+  };
   const deleteService = async(serviceId) => {
     const body = {
       item_id: selectedItem._id,
@@ -315,12 +318,64 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
           {
             serviceList?
             <div>
-                {serviceList && serviceList.map((service, index) => (<ServiceItem key={service._id} service={service} showHistory={showHistory} deleteService={deleteService} setSelectedService={setSelectedService}/>))}
+                {serviceList && serviceList.map((service, index) => (<ServiceItem key={service._id} service={service} showHistory={showHistory} deleteService={deleteService} selectedService={selectedService} setSelectedService={setSelectedService}/>))}
             </div>
             : "no service History"
           }</List>
         </Card>
       </div>
+      {
+       selectedService ? (
+        <div className="fixed inset-0 flex flex-row items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+          
+  <div className="bg-white flex flex-col p-2 rounded-md shadow-md">
+  <IoCloseOutline className='text-black self-end cursor-pointer size-7' onClick={()=>{setSelectedService(false)}}/>
+    <div className="ml-2 text-xl">Service Details</div>
+    <div className='flex flex-row p-2 items-center'>
+      <div className='flex flex-col justify-center ms-2'>
+        <p className='text-black m-2'>serviceDate: {selectedService.serviceDate}</p>
+        <p className='text-black m-2'>serviceType: {selectedService.serviceType}</p>
+        {
+        selectedService.parts[0]?
+        <div className='flex flex-col justify-center ms-2'>
+        <div className="border border-black rounded-2">
+        <div className='text-black text-lg m-2'>service parts</div>
+         {selectedService.parts.map(part=><div>
+          <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
+          <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
+         </div>)}
+        
+        </div>
+      </div>:<></>
+      }
+      </div>
+      {
+        selectedService.providerDetails.name?
+        <div className='flex flex-col justify-center ms-2'>
+        <div className="border border-black p-2">
+          <div className='text-black text-lg m-2'>service provider</div>
+          <div className="flex">
+            <div>
+              {selectedService.providerDetails.name&&<p className='text-black ml-4 mb-2'>Name: {selectedService.providerDetails.name}</p>}
+              {selectedService.providerDetails.contactNumber&&<p className='text-black ml-4 mb-2'>Number: {selectedService.providerDetails.contactNumber}</p>}
+              {selectedService.providerDetails.contactEmail&&<p className='text-black ml-4 mb-2'>Email: {<button onClick={composeEmail}>{selectedService.providerDetails.contactEmail}</button>}</p>}
+            </div>
+            {selectedService.providerDetails.description && <p className='text-black ml-4 mb-2'>description: {selectedService.providerDetails.description}</p>}
+          </div>
+          
+        </div>
+        
+        </div>:<></>
+      }
+      
+    </div>
+    {/* <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md self-end justify-end" onClick={()=>{setSelectedService(null)}}>
+      Close
+    </button> */}
+  </div>
+</div>
+      ): <></>
+      }
     </div>
     }
     </>

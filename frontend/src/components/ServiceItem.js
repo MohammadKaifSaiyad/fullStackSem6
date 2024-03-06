@@ -1,16 +1,22 @@
 import { ListItem, ListItemSuffix } from "@material-tailwind/react";
 import React from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
-function ServiceItem({ service, showHistory, deleteService, setSelectedService }) {
+function ServiceItem({ service, showHistory, deleteService, setSelectedService, selectedService }) {
+  const naviagte = useNavigate();
   const handleDeleteService = (e)=>{
     setSelectedService(e.target.key);
     console.log('selected service: ',service._id);
     deleteService(service._id);
   }
+  const handleShowService =()=>{
+    console.log('selected serivce: ', service._id);
+    setSelectedService(service);
+  }
   return (
     <div className="flex h-12 flex-row">
-      <ListItem className="h-12 flex">
+      <ListItem className="h-12 flex" onClick={handleShowService}>
         <p className="justify-self-start w-3/6">{(""+service.serviceDate).slice(0,10)}</p>
         <p className="justify-self-end w-3/6">{service.serviceType}</p>
       </ListItem> 
