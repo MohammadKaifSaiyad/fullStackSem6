@@ -73,13 +73,12 @@ function GetProfile() {
           //   'Content-Type': 'multipart/form-data',
           // },
           body:JSON.stringify({'area_name':area, 'email':data.email})
-        }).then(res=>{
-          console.log(res.statusText)
-          if(res.statusText==='OK'){
+        }).then(res=>res.data)
+        .then(data=>{
+          if(data.status==='SUCCESS'){
             navigate('/signin')
           }
         })
-        
       } catch (error) {
         console.error('Error uploading image:', error);
       }
