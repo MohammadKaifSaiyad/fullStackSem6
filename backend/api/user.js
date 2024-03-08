@@ -89,6 +89,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/additem", checkCookies, async (req, res) => {
+  console.log('inside additem....')
     // console.log('inside additem', req.body,"\nreq.file: ", req.file)
   if (req.body.item_id && true) {
     let url = req.body.image_url;
@@ -241,7 +242,7 @@ const { json } = require("body-parser");
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
 
 const auth = new google.auth.GoogleAuth({
-  keyFile: path.join(__dirname, "googledrive.json"),
+  keyFile: path.join(__dirname, "../googledrive.json"),
   scopes: SCOPES,
 });
 

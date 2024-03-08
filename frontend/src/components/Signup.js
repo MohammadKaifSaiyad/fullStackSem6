@@ -32,7 +32,7 @@ function Signup() {
     return 0;
   };
   const handleSginupWithGoogle = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = "https://inventoflow.onrender.com/auth/google";
   };
   const handleSignup = async (e) => {
     e.preventDefault();

@@ -59,7 +59,7 @@ const checkServices = ()=>{
     }
 }
 
-const alertJob = cron.schedule('* * * * *', async() => {
+const alertJob = cron.schedule('0 8 * * *', async() => {
     console.log('starting alert job');
     checkServices();
   });

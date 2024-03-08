@@ -140,9 +140,6 @@ router.post('/additem',async(req, res)=>{
             status:'SUCCESS',
             message:'item is added successfully!'
         })
-    res.json({
-        status:'SUCCESS'
-    })
     return res;
 })
 
@@ -305,7 +302,7 @@ router.get('/generateqr/:item_id', async(req, res)=>{
         return res;
     }
     // QRCode.toFile('/frontend/qr1.png', `www.google.com`, { errorCorrectionLevel: 'H' });
-    QRCode.toDataURL(`http:/localhost:5000/api/view/itemdetails/${item.qrCode}`, { errorCorrectionLevel: 'H' }, function (err, url) {
+    QRCode.toDataURL(`https://inventoflow.onrender.com/api/view/itemdetails/${item.qrCode}`, { errorCorrectionLevel: 'H' }, function (err, url) {
         if(err){
             res.json({
                 status:'FAILED',

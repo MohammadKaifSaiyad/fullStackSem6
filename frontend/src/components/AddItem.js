@@ -114,6 +114,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
     // console.log('body data:',data);
     console.log('body before request:', data);
     try{
+      // await axios.post('http://localhost:5000/api/user/additem',formData,{
       await axios.post('https://inventoflow.onrender.com/api/user/additem', formData, {
       // headers: {
       //   'Content-Type': 'multipart/form-data',

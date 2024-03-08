@@ -13,7 +13,7 @@ router.get(
     ],
     prompt: "consent",
     response_type: "code",
-    redirect_uri: "http://localhost:5000/auth/google/callback",
+    redirect_uri: "https://inventoflow.onrender.com/auth/google/callback",
   })
 );
 
@@ -22,7 +22,7 @@ router.get(
   passport.authenticate("google", {
     scope: ["profile", "email"],
     prompt: "consent",
-    redirect_uri: "http://localhost:5000/auth/google/callback",
+    redirect_uri: "https://inventoflow.onrender.com/auth/google/callback",
   })
 );
 
@@ -68,7 +68,7 @@ router.get("/loginsuccess", async(req, res) => {
             res.cookie("jwt", token);
             // resd
             console.log("cookies:",token)
-            res.redirect('http://localhost:5000/user');
+            res.redirect('https://inventoflow.onrender.com/user');
           }
 
           // user dashboard with given datas
@@ -92,7 +92,7 @@ router.get("/loginsuccess", async(req, res) => {
         //     jwt: token,
         //   });
         console.log("cookies:",token)
-        res.redirect('http://localhost:5000/user');
+        res.redirect('https://inventoflow.onrender.com/user');
         }
       });
     }
