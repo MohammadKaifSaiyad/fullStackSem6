@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { Context } from '../Context';
 import { useParams } from 'react-router-dom'
 import ItemDetails from './ItemDetails';
 import { toast, ToastContainer } from 'react-toastify'
+import ServiceItem from './ServiceItem';
+import {IoCloseOutline} from 'react-icons/io5'
 
 import {
   List,
@@ -14,9 +17,14 @@ import {
 } from "@material-tailwind/react";
 
 function ViewItem() {
+  const [serviceList, setServiceList] = useState();
+  const [selectedService, setSelectedService] = useState(false);
     const params = useParams();
     const [itemData, setItemData] = useState(null);
+    const {viewOnlyState} = useContext(Context);
+    const [viewOnly, setViewOnly] = viewOnlyState;
     const fetchItemDetails = async()=>{
+      setViewOnly(true);
       const option = {
         method:'POST',
         headers:{'content-type': 'application/json'},
@@ -27,6 +35,7 @@ function ViewItem() {
       .then(data=>{
         if(data.status === 'SUCCESS'){
           setItemData(data.item_detail);
+          setServiceList(data.item_detail.servicePending);
         }
         else{
           toast.error(data.message);
@@ -36,6 +45,12 @@ function ViewItem() {
         console.log("error :", err)
       })
     }
+    function getSum(inti,part){
+      return inti+part.partCost;
+    }
+    const composeEmail = () => {
+      window.location.href = `mailto:${selectedService.providerDetails.contactEmail}?subject=${encodeURIComponent("subject")}&body=${encodeURIComponent("body")}`;
+    };
     useEffect(()=>{
         console.log('item Id:',params.itemId);
         // call fetch data to get item data
@@ -118,6 +133,7 @@ function ViewItem() {
                 class="inline-block cursor-pointer w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={() => {
                   console.log("history");
+                  setServiceList(itemData.serviceHistory);
                 }}
               >
                 History
@@ -128,15 +144,78 @@ function ViewItem() {
                 class="inline-block w-full cursor-pointer p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={() => {
                   console.log("pending");
+                  setServiceList(itemData.servicePending);
                 }}
               >
                 Pending
               </a>
             </li>
           </ul>
-          <div>history</div>
+          
+          <List className="h-96 overflow-y-scroll">
+          {
+            serviceList?
+            <div>
+                {serviceList && serviceList.map((service, index) => (<ServiceItem key={service._id} service={service} showHistory={true} deleteService={null} setEdit={null} selectedService={selectedService} setSelectedService={setSelectedService}/>))}
+            </div>
+            : "no service History"
+          }</List>
+
         </Card>
       </div>
+      {
+       selectedService ? (
+        <div className="fixed inset-0 flex flex-row items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+          
+  <div className="bg-white flex flex-col p-2 rounded-md shadow-md">
+  <IoCloseOutline className='text-black self-end cursor-pointer size-7' onClick={()=>{setSelectedService(false)}}/>
+    <div className="ml-2 text-xl">Service Details</div>
+    <div className='flex flex-row p-2 items-center'>
+      <div className='flex flex-col justify-center ms-2'>
+        <p className='text-black m-2'>serviceDate: {selectedService.serviceDate}</p>
+        <p className='text-black m-2'>serviceType: {selectedService.serviceType}</p>
+        <p className='text-black m-2'>serviceDescription: {selectedService.description}</p>
+        {
+        selectedService.parts[0]?
+        <div className='flex flex-col justify-center ms-2'>
+        <div className="border border-black rounded-2">
+        <div className='text-black text-lg m-2'>service parts</div>
+         {selectedService.parts.map(part=><div className="flex">
+          <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
+          <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
+         </div>)}
+        <div className="ml-4">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
+        </div>
+      </div>:<></>
+      }
+      </div>
+      {
+        selectedService.providerDetails.name?
+        <div className='flex flex-col justify-center ms-2'>
+        <div className="border border-black p-2">
+          <div className='text-black text-lg m-2'>service provider</div>
+          <div className="flex">
+            <div>
+              {selectedService.providerDetails.name&&<p className='text-black ml-4 mb-2'>Name: {selectedService.providerDetails.name}</p>}
+              {selectedService.providerDetails.contactNumber&&<p className='text-black ml-4 mb-2'>Number: {selectedService.providerDetails.contactNumber}</p>}
+              {selectedService.providerDetails.contactEmail&&<p className='text-black ml-4 mb-2'>Email: {<button onClick={composeEmail}>{selectedService.providerDetails.contactEmail}</button>}</p>}
+            </div>
+            {selectedService.providerDetails.description && <p className='text-black ml-4 mb-2'>description: {selectedService.providerDetails.description}</p>}
+          </div>
+          
+        </div>
+        
+        </div>:<></>
+      }
+      
+    </div>
+    {/* <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md self-end justify-end" onClick={()=>{setSelectedService(null)}}>
+      Close
+    </button> */}
+  </div>
+</div>
+      ): <></>
+      }
     </div>
 
 

@@ -9,9 +9,13 @@ import Login from './components/Login';
 import UserDashboard from './components/UserDashboard'
 import GetProfile from './components/GetProfile';
 import ViewItem from './components/ViewItem';
+import { Context } from './Context';
+import { useState } from 'react';
 function App() {
+  const [viewOnly, setViewOnly] = useState(false);
   return (
-    <div className="App">
+    <Context.Provider value={{viewOnlyState:[viewOnly, setViewOnly]}}>
+      <div className="App">
       {/* <Header/> */}
       <Routes>
         <Route path='/' element={<Home/>}/>
@@ -25,6 +29,7 @@ function App() {
         <Route exact path='/view/itemdetails/:itemId' element={<ViewItem/>}/>
       </Routes>
     </div>
+    </Context.Provider>
   );
 }
 

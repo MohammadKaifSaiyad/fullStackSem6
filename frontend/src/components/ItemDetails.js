@@ -62,7 +62,12 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
     })
   }
   const handleAddMaintenance =()=>{
-    navigate('addmaintenance');
+    if(itemIdByQr){
+      navigate('/user/item/addmaintenance');
+    }else{
+      navigate('addmaintenance');
+    }
+    
   }
   const handleGenerateQR = ()=>{
     console.log(selectedItem);

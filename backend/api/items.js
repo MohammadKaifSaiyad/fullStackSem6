@@ -322,7 +322,7 @@ router.get('/generateqr/:item_id', async(req, res)=>{
 
 router.post('/getitembyqr',checkCookies, (req, res)=>{
     console.log('inside getitembyqr');
-    itemModel.findOne({qrCode: req.body.item_qr})
+    itemModel.findOne({qrCode: req.body.item_qr}).populate('servicesHistory').populate('servicePending')
     .then(item=>{
         if(!item){
             res.json({
@@ -355,7 +355,7 @@ router.post('/getitembyqr',checkCookies, (req, res)=>{
 })
 router.post('/getitemforview', (req, res)=>{
     console.log('inside getitembyqr');
-    itemModel.findOne({qrCode: req.body.item_qr})
+    itemModel.findOne({qrCode: req.body.item_qr}).populate('servicesHistory').populate('servicePending')
     .then(item=>{
         if(!item){
             res.json({
@@ -380,7 +380,7 @@ router.post('/getitemforview', (req, res)=>{
     })
 })
 
-router.post('/addmaintenance', async(req, res)=>{
+router.post('/addmaintenance',checkCookies, async(req, res)=>{
     console.log('inside addmaintenance: ',req.body);
     console.log('service id', req.body.service_id && true)
     if(req.body.service_id && true){
