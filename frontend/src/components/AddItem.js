@@ -9,6 +9,7 @@ const crypto = require('crypto-js');
 // const boundary = `----${crypto.random(16).toString('hex')}`;
 function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSelectedItem, selectedItem, edit, setEdit}) {
   const navigate = useNavigate();
+  const [delay, setDelay] = useState(false);
   const imgRef = useRef(null);
   const [update, setUpdate] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -96,6 +97,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
   }
   const handleAddItem = async(e)=>{
     e.preventDefault();
+    setDelay(true);
     if(checkItemData() === 1)
       return;
     console.log('selectedImage:',selectedImage)
@@ -135,9 +137,11 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
       }else{
         toast.error(result.message);
       }
+      setDelay(false)
     })
     .catch(err => {
       console.log('error while additem', err);
+      setDelay(false)
     });
     }catch(err){
       console.log(err);
@@ -274,6 +278,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
 
         <button
           type='submit'
+          disabled={delay}
           class="text-white mt-2 bg-gray-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           
         >

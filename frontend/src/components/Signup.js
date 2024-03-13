@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
+  const [delay, setDelay]= useState(false);
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -36,6 +37,7 @@ function Signup() {
   };
   const handleSignup = async (e) => {
     e.preventDefault();
+    setDelay(true);
     // const check = 0;
     username = username.trim();
     email = email.trim();
@@ -61,6 +63,7 @@ function Signup() {
           if (data.status == "SUCCESS") {
             const data2 = { username: username, email: email };
             sessionStorage.setItem("userdata", JSON.stringify(data2));
+            setDelay(false);
             navigate("/verifyemail");
           }
           else{
@@ -154,7 +157,7 @@ function Signup() {
           </div>
           
 
-          <button type="submit" class="btn">
+          <button type="submit" class="btn" disabled={delay}>
             Submit
           </button>
 

@@ -5,6 +5,7 @@ import { IoInformation } from "react-icons/io5";
 import {toast, ToastContainer} from 'react-toastify';
 function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedService, setSelectedService}) {
   const [parts, setParts] = useState([]);
+  const [delay, setDelay] = useState(false);
   const [maxPart, setMaxPart] = useState(0);
   const [editService, setEditService] = useState(false);
   const [serviceData, setServiceData] = useState({
@@ -88,6 +89,7 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
 
   const handleAddMaintenance = async(e)=>{
     e.preventDefault();
+    setDelay(true);
     console.log("recived data:", serviceData);
     const serdata = {...serviceData, "item_id":selectedItem? selectedItem._id: null,};
     const options={
@@ -108,6 +110,10 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
       else{
         toast.error(data.message);
       }
+      setDelay(false);
+    }).catch(err=>{
+      setDelay(false);
+      console.log('error:',err);
     })
     setServiceData({
       "service_date":"",

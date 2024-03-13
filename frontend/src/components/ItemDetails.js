@@ -270,7 +270,7 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
           </div>
           <div className="flex">
           <MdOutlineArrowBack
-            className="h-6 w-6 mx-4 mt-10 mb-6"
+            className="h-6 w-6 mx-4 mt-10 mb-6 cursor-pointer"
             onClick={() => {
               navigate(-1);
             }}

@@ -8,7 +8,7 @@ passport.use(
         scope:['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
         prompt: 'consent',
         response_type:'code',
-        callbackURL:'http://localhost:5000/auth/google/callback'
+        callbackURL:'https://inventoflow.onrender.com/auth/google/callback'
     },
     function(accessToken, refreshToken, profile, done) {
         done(null, profile)

@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import ItemDetails from "./ItemDetails";
 import AddMaintenance from "./AddMaintenance";
+import GenerateQRList from "./GenerateQRList";
 
 function User() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -136,7 +137,7 @@ function User() {
             element={<Items setItemList={setItemList} selectedArea={selectedArea} itemList={itemList} fetchItemsByArea={fetchItemsByArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}
           ></Route>
           <Route path="/addarea" element={<AddArea edit={edit} setEdit={setEdit} fetchUserAreas={fetchUserAreas} setAreaData={setAreaData} areaData={areaData} />}></Route>
-          <Route path="/generateqr" element={<>This is qr</>}></Route>
+          <Route path="/generateqr" element={<GenerateQRList/>}></Route>
           <Route path="/transaction" element={<>This is transaction</>}></Route>
           <Route path="/additem" element={<AddItem edit={edit} setEdit={setEdit} selectedArea={selectedArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem} itemData={itemData} setItemData={setItemData} fetchItemsByArea={fetchItemsByArea}/>}></Route>
           <Route path="/item" element={<ItemDetails selectedService={selectedService} setSelectedService={setSelectedService} fetchItemsByArea={fetchItemsByArea} edit={edit} setEdit={setEdit} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
@@ -146,15 +147,6 @@ function User() {
         </Routes>
       </div>
     </div>
-
-    //   <Routes>
-    //   <Route path='/' element={<Layout/>}>
-    //     <Route path='items' element={<Items/>}></Route>
-    //     <Route path='addarea' element={<AddArea/>}></Route>
-    //     <Route path='generateqr' element={<>This is qr</>}></Route>
-    //     <Route path='transaction' element={<>This is transaction</>}></Route>
-    //   </Route>
-    // </Routes>
   );
 }
 

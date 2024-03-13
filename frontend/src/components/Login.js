@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
+  const [delay, setDelay] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setDelay(true);
     const check = checkDetails(email, password);
     if (check != 0) {
       console.log('entered data is not in proper format')
@@ -41,6 +43,7 @@ function Login() {
     await fetch("/api/user/login", reqdata)
       .then((res) => res.json())
       .then(async (data) => {
+        setDelay(false);
         console.log("data after fecth form login", data);
         navigate("/user");
       });
@@ -108,7 +111,7 @@ function Login() {
             <Link href="#">Forgot password?</Link>
           </div>
 
-          <button type="submit" class="btn">
+          <button type="submit" class="btn" disabled={delay}>
             Login
           </button>
           <div class="register-link">
