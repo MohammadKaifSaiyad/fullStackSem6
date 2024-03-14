@@ -8,7 +8,15 @@ const userModel = require('../models/loginedUserSchema')
 
 const sendMailOnEmail = async (service)=>{
     console.log("serivce", service);
+    if(!service || !service.item){
+        console.log("service.item", service);
+        return;
+    }
     const item = await itemModel.findById(service.item);
+    if(!item || !item.user){
+        console.log("service.item", service);
+        return;
+    }
     const user = await userModel.findById(item.user);
     const mailOpetions = {
         from: 'demoweb809@gmail.com',
@@ -42,10 +50,10 @@ const checkDate = (serviceDate)=>{
     }
 }
 
-const checkServices = ()=>{
+const checkServices = async()=>{
     console.log('checking services which are less the 5 days');
     try{
-        const services = serviceModel.find({});
+        const services = await serviceModel.find({});
         const alertServices = services.filter(service => {
             // checking less then 7 days logic
             return checkDate(service.serviceDate);

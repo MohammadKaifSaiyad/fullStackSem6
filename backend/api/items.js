@@ -231,6 +231,29 @@ router.post('/getitem',checkCookies ,async (req, res)=>{
 
 router.post('/search/:key',checkCookies, async(req,res)=>{
     console.log(req.params.key);
+    if(req.body.type==="byUserId"){
+        itemModel.find({
+            "$or":[
+                {"name":{$regex:req.params.key}},
+                {"serialNumber":{$regex:req.params.key}}
+            ],
+            "$and":[{user:req.body.user_id}]
+        }).then(data=>{
+            res.json({
+                status:"SUCCESS",
+                search_result:data
+            })
+            return res;
+        })
+        .catch(err=>{
+            res.json({
+                status:"FAILED",
+                message:"Error while searching the data!"
+            })
+            return res;
+        })
+        return res;
+    }
     itemModel.find({
         "$or":[
             {"name":{$regex:req.params.key}},
@@ -536,5 +559,87 @@ router.post('/deleteservice', async(req, res)=>{
         console.log('Error while deleting service',err);
     }
     
+})
+
+router.post('/getallitems',checkCookies, async(req, res)=>{
+    console.log('inside getallitem',req.body.user_id)
+    try{
+        itemModel.find({user:req.body.user_id}).populate('servicesHistory').populate('servicePending')
+        .then(items =>{
+            if(!items){
+                res.json({
+                    status:'FAILED',
+                    message:'cannot fetch items!'
+                })
+                return res;
+            }
+            res.json({
+                status:'SUCCESS',
+                item_list:items
+            })
+            return res;
+        })
+    }catch(err){
+        res.json({
+            status:'FAILED',
+            message:'Error while deleting service!'
+        })
+        console.log('Error while deleting service',err);
+        return res;
+    }
+})
+router.post('/generateqrcode', checkCookies, async(req, res)=>{
+    try{
+        // let itemObj;
+        let qrCode=null;
+        const item = await itemModel.findById(req.body.item_id)
+            if(!item){
+                res.json({
+                    status:'FAILED',
+                    message:'item not found in data base!'
+                })
+                return res;
+            }
+            else if(item.user != req.body.user_id){
+                res.json({
+                    status:'FAILED',
+                    message:'trying to access item of other user!'
+                })
+                return res;
+            }
+            if(!item.qrCode){
+                itemObj = item;
+                qrCode = item.generateQRCode();
+            }
+        item.save();
+        if(!item.qrCode){
+            res.json({
+                status:'FAILED',
+                message: 'code not generated!'
+            })
+            return res;
+        }
+        QRCode.toDataURL(`https://inventoflow.onrender.com/api/view/itemdetails/${item.qrCode}`, { errorCorrectionLevel: 'H' }, function (err, url) {
+        if(err){
+            res.json({
+                status:'FAILED',
+                message:'Error while generation qr!'
+            })
+            return res;
+        }
+        res.json({
+            status:'SUCCESS',
+            qrdata: url
+        })
+        return res;
+      })
+    }catch(err){
+        res.json({
+            status:'FAILED',
+            message:'Error while generating qr!'
+        })
+        console.log('Error:',err);
+        return res;
+    }
 })
 module.exports = router;

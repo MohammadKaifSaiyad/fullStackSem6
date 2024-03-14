@@ -1,4 +1,6 @@
-import React from 'react'
+import React,{useState} from 'react'
+
+import { toast ,ToastContainer} from "react-toastify";
 import {
     List,
     ListItem,
@@ -8,9 +10,35 @@ import {
     Typography,
     ListItemSuffix,
   } from "@material-tailwind/react";
-const GenerateQRItem = ({item, selectedItem}) => {
+const GenerateQRItem = ({item, selectedItem, setIsQRAvailable, isQrAvailable, setQrData, qrData}) => {
+  
+  
+  const handleGenerateQR =async ()=>{
+    console.log(item._id);
+    const options = {
+      method:'POST',
+      headers:{'content-type': 'application/json'},
+      body:await JSON.stringify({item_id:item._id})
+    }
+    fetch('/items/generateqrcode',options)
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.status === 'SUCCESS'){
+        setIsQRAvailable(true);
+        setQrData(data.qrdata);
+      }else{
+        toast.error(data.message);
+      }
+    })
+    .catch(err=>{
+      console.log('error while fetching qr:',err);
+      toast.error('Can not generate qr!')
+    })
+  }
   return (
-    <ListItem className="m-2 flex" >
+    <ListItem className="m-2 flex" onClick={handleGenerateQR}>
+      <ToastContainer/>
+      
       <ListItemPrefix className="w-1/6">
         <Avatar
           variant="circular"
