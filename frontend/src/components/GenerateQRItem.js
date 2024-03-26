@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 
 import { toast ,ToastContainer} from "react-toastify";
+import { MdOutlineQrCode } from "react-icons/md";
 import {
     List,
     ListItem,
@@ -36,7 +37,8 @@ const GenerateQRItem = ({item, selectedItem, setIsQRAvailable, isQrAvailable, se
     })
   }
   return (
-    <ListItem className="m-2 flex" onClick={handleGenerateQR}>
+    <div className='flex'>
+    <ListItem className="m-2 flex" onClick={()=>{console.log(item)}}>
       <ToastContainer/>
       
       <ListItemPrefix className="w-1/6">
@@ -55,7 +57,11 @@ const GenerateQRItem = ({item, selectedItem, setIsQRAvailable, isQrAvailable, se
           S/N: {item.serialNumber}
         </Typography>
       </div>
+      
     </ListItem>
+    <MdOutlineQrCode onClick={handleGenerateQR} className='cursor-pointer self-center' size={30}/>
+    </div>
+    
   )
 }
 

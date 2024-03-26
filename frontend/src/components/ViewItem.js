@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Context } from '../Context';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import ItemDetails from './ItemDetails';
 import { toast, ToastContainer } from 'react-toastify'
 import ServiceItem from './ServiceItem';
@@ -23,6 +23,7 @@ function ViewItem() {
     const [itemData, setItemData] = useState(null);
     const {viewOnlyState} = useContext(Context);
     const [viewOnly, setViewOnly] = viewOnlyState;
+    const navigate = useNavigate();
     const fetchItemDetails = async()=>{
       setViewOnly(true);
       const option = {
@@ -101,7 +102,7 @@ function ViewItem() {
             <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-11/12 content-center" />
           </div>
           <div className="flex">
-          <button className="self-end px-2 h-8 text-white bg-gray-600 border-l rounded m-4">
+          <button className="self-end px-2 h-8 text-white bg-gray-600 border-l rounded m-4" onClick={()=>{navigate("/signin")}}>
             Signin
           </button>
           
@@ -132,8 +133,8 @@ function ViewItem() {
               <a
                 class="inline-block cursor-pointer w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={() => {
-                  console.log("history");
-                  setServiceList(itemData.serviceHistory);
+                  console.log("history", itemData.servicesHistory);
+                  setServiceList(itemData.servicesHistory);
                 }}
               >
                 History
@@ -143,7 +144,7 @@ function ViewItem() {
               <a
                 class="inline-block w-full cursor-pointer p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={() => {
-                  console.log("pending");
+                  console.log("pending", itemData.servicePending);
                   setServiceList(itemData.servicePending);
                 }}
               >

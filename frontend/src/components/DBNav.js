@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { FaBell } from 'react-icons/fa';
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline, IoNotificationsCircleOutline } from "react-icons/io5";
 import './DBNav.css';
 import { useNavigate } from 'react-router-dom';
+// import { options } from '../../../backend/api/items';
 // import CloseButton from 'react-bootstrap/CloseButton';
 // import { CCloseButton } from '@coreui/react'
+import {
+  List,
+} from "@material-tailwind/react";
+import Notification from './Notification';
+
 function DBNav({fetchUserProfile, userProfile}) {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [notifications, setNotifications] = useState(null);
   
   const handleImageClick = () => {
     setIsDialogOpen(true);
@@ -40,12 +47,32 @@ function DBNav({fetchUserProfile, userProfile}) {
       
     });
   };
+  const fetchNotification = ()=>{
+    const reqdata = {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    };
+    fetch('/items/getnotifications', reqdata)
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.status === 'SUCCESS'){
+        setNotifications(data.notifications[0]?data.notifications:null);
+        // console.log('setNotifiations: ', data.notifications)
+        // console.log("data: ",data);
+      }
+    })
+  }
+  useEffect(()=>{
+    fetchNotification();
+  },[]);
   
   return (
     <div className='db-nav'>
       <div className='nav-text'>Dashboard</div>
       <div className='nav-bell'>
-        <FaBell onClick={handleShowNotification}/>
+        <FaBell onClick={handleShowNotification} color={notifications? "red":"white"}/>
       </div>
       <div className='user-profile'>
         <img src={userProfile.profileimg ?  userProfile.profileimg:require('./img/user_profile_default.webp')} className='profile-img' alt='Profile' onClick={handleImageClick}/>
@@ -75,8 +102,10 @@ function DBNav({fetchUserProfile, userProfile}) {
  <div className="bg-white flex flex-col p-4 rounded-md shadow-md">
  <IoCloseOutline className='text-black self-end cursor-pointer size-8' onClick={()=>{setShowNotification(false)}}/>
   
-   <div className='p-4 flex flex-row'>
-   <p className='text-black'>to show notifications</p>
+   <div className='p-4 flex flex-col'>
+   {
+    notifications.map(notif=><List><Notification fetchNotification={fetchNotification} notif={notif}/></List>)
+   }
    </div>
    
  </div>

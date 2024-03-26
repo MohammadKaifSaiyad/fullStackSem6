@@ -30,11 +30,12 @@ function ServiceItem({ service, showHistory, setEdit, deleteService, setSelected
         <p className="justify-self-start w-3/6">{(""+service.serviceDate).slice(0,10)}</p>
         <p className="justify-self-end w-3/6">{service.serviceType}</p>
       </ListItem> 
-      {(showHistory && viewOnly) ? null : (
+      {viewOnly ? null : ( !showHistory ?
         <ListItemSuffix className="flex flex-row items-center justify-items-center">
           <MdEdit className="cursor-pointer m-1 h-5 w-5" onClick={handleEditService}/>
           <MdDelete className="cursor-pointer m-1 h-5 w-5" onClick={handleDeleteService} />
         </ListItemSuffix>
+        :null
       )}
     </div>
   );

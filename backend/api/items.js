@@ -564,7 +564,7 @@ router.post('/deleteservice', async(req, res)=>{
 router.post('/getallitems',checkCookies, async(req, res)=>{
     console.log('inside getallitem',req.body.user_id)
     try{
-        itemModel.find({user:req.body.user_id}).populate('servicesHistory').populate('servicePending')
+        itemModel.find({user:req.body.user_id}).populate('area','name').populate('servicesHistory').populate('servicePending')
         .then(items =>{
             if(!items){
                 res.json({
@@ -639,6 +639,86 @@ router.post('/generateqrcode', checkCookies, async(req, res)=>{
             message:'Error while generating qr!'
         })
         console.log('Error:',err);
+        return res;
+    }
+})
+
+router.post('/getnotifications', checkCookies, async(req, res)=>{
+    try{
+        const items = await itemModel.find({user:req.body.user_id}).populate('servicePending')
+        console.log("items: ",items, req.body.user_id);
+        // res.json({
+        //     status:'SUCCESS',
+        //     // serives:services,
+        //     items:items
+        // })
+        // return res;
+        const services = [];
+        const notifications = [];
+        items.map(item => {
+            // const item = item;
+            item.servicePending.filter(service=>{
+                if(service.serviceDate<=new Date().toISOString().slice(0,10)){
+                    services.push(service);
+                    // const itemName = await itemModel.findById(service.item);
+                    console.log(`Confirm your ${item.name} service on ${service.serviceDate}`)
+                    notifications.push({item: item, service: service, notification:"Confirm your "+item.name+" service on "+service.serviceDate});
+                    return true;
+                }
+                return false;
+            });
+        })
+        res.json({
+            status:'SUCCESS',
+            // serives:services,
+            notifications: notifications
+        })
+        return res;
+    }catch(err){
+        console.log("error: ",err);
+        res.json({
+            status:'FAILED',
+            message:'Error while generating notification!'
+        })
+        return res;
+    }
+})
+
+router.post('/confirmservice', checkCookies, async (req, res)=>{
+    // console.log('confirmservice', req.body)
+    try{
+        const item = await itemModel.findById(req.body.item_id);
+        const service = await serviceModel.findById(req.body.service_id);
+        if(!service || !item){
+            // console.log(service, item)
+            res.json({
+                status:'FAILED',
+                message:'cannot find service or item!'
+            })
+            return res;
+        }
+        const pendingService = await item.servicePending.filter(serv=>{
+            console.log('service_id: ', serv)
+            console.log('req.service_id', req.body.service_id)
+            console.log('result: ', serv != req.body.service_id)
+            return serv != req.body.service_id;
+        })
+        console.log('pending serivce: ', pendingService,' service pending', item.servicePending);
+        item.servicePending = pendingService;
+        item.servicesHistory.push(service);
+        await item.save();
+        service.completed = true;
+        await service.save();
+        res.json({
+            status:'SUCCESS',
+        })
+        return res;
+    }catch(err){
+        console.log("error: ",err);
+        res.json({
+            status:'FAILED',
+            message:'Error while confirming service!'
+        })
         return res;
     }
 })
