@@ -58,19 +58,13 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
     })
   }
   return (
-    <>
-    <ToastContainer/>
+    <div className="w-full h-5/6">
+      <ToastContainer/>
       {
         selectedArea?
-        <div className="flex flex-row-reverse mt-16 w-100 h-5/6">
-          <div className="w-2/6">
-            <button className="px-2 h-8 text-white bg-gray-600 border-l rounded m-4" onClick={handleAddItem}>
-              Add Item
-            </button>
-          </div>
-  
+        <div className="flex flex-row mt-16 w-100 h-full">
           <div className="flex flex-col w-4/6">
-            <Card className="w-100 h-5/6">
+            <Card className="w-100 h-full">
               <div className="font-sans text-3xl w-100 ml-4">Item List</div>
               <div className="flex items-center w-100">
                 <input
@@ -81,25 +75,27 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
                   ref={searchRef}
                 />
               </div>
-              {/* <div className="overflow-hidden"> */}
-              <Card className="h-5/6">
-              <List className="overflow-y-scroll">
-                <div className="">
-                  {
-                  itemList ? itemList.map((item) => (
-                    <Item key={item._id} item={item} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
-                  )):<div>No Items to show.</div>
-                
-                }
-                </div>
-              </List>
+              <Card className="h-full">
+                <List className="overflow-y-scroll">
+                  <div className="">
+                    {
+                      itemList ? itemList.map((item) => (
+                        <Item key={item._id} item={item} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+                      )):<div className="">No Items to show.</div>
+                    }
+                  </div>
+                </List>
               </Card>
-            {/* </div> */}
-          </Card>
-        </div>
-      </div> : <h2>Select area first</h2>
+            </Card>
+          </div>
+          <div className="w-2/6">
+            <button className="px-2 h-8 text-white bg-gray-600 border-l rounded m-4" onClick={handleAddItem}>
+              Add Item
+            </button>
+          </div>
+        </div> : <div className="text-2xl m-5">Select area first</div>
       }
-    </>
+    </div>
   );
 }
 

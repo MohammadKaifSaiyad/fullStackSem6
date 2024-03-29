@@ -127,24 +127,31 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
     }
   }
   const handleDeleteItem =async()=>{
-    const data={item_id:selectedItem._id, area_id:selectedItem.area}
-    console.log('calling delete api:', data);
-    const options = {
-      method:'POST',
-      headers:{'content-type': 'application/json'},
-      body: await JSON.stringify(data)
-    }
-    fetch('/items/deleteitem',options)
-    .then(res=>res.json())
-    .then(data=>{
-      if(data.status === 'SUCCESS'){
-        toast.success('item Deleted!');
-        fetchItemsByArea(selectedItem.area);
-        navigate('/user/items');
-      }else{
-        toast.error(data.message);
+    const isConfirmed = window.confirm(`Are you sure you want to delete ${selectedItem.name}?`);
+    if (isConfirmed) {
+      const data = { item_id: selectedItem._id, area_id: selectedItem.area };
+      console.log('calling delete api:', data);
+      const options = {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(data)
+      };
+      fetch('/items/deleteitem', options)
+          .then(res => res.json())
+          .then(data => {
+              if (data.status === 'SUCCESS') {
+                  toast.success('item Deleted!');
+                  fetchItemsByArea(selectedItem.area);
+                  navigate('/user/items');
+              } else {
+                  toast.error(data.message);
+              }
+          })
+          .catch(err => {
+              console.error('Error deleting item:', err);
+              toast.error('Error while deleting item!');
+          });
       }
-    })
   }
   const fetchHistory = async() => {
     const options = {
@@ -231,7 +238,7 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
           </div>
           <MdEdit className="mt-5 ml-20 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleEditItemDetails}/>
           <MdOutlineQrCode className="mt-5 ml-2 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleGenerateQR}/>
-          <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleDeleteItem}/>
+          <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleDeleteItem} />
         </div>
         <Card className="mt-2 ml-4 flex">
           <div className="flex flex-row mt-5">

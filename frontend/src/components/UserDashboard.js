@@ -12,6 +12,7 @@ import axios from "axios";
 import ItemDetails from "./ItemDetails";
 import AddMaintenance from "./AddMaintenance";
 import GenerateQRList from "./GenerateQRList";
+import Services from "./Services";
 
 function User() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -120,7 +121,7 @@ function User() {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="flex w-screen h-screen">
       <Sidebar
         areaList={areaList}
         selectedArea={selectedArea}
@@ -136,9 +137,9 @@ function User() {
             path="/items"
             element={<Items setItemList={setItemList} selectedArea={selectedArea} itemList={itemList} fetchItemsByArea={fetchItemsByArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}
           ></Route>
-          <Route path="/addarea" element={<AddArea edit={edit} setEdit={setEdit} fetchUserAreas={fetchUserAreas} setAreaData={setAreaData} areaData={areaData} />}></Route>
-          <Route path="/generateqr" element={<GenerateQRList/>}></Route>
-          <Route path="/transaction" element={<>This is transaction</>}></Route>
+          <Route path="/addarea" element={<AddArea areaList={areaList} edit={edit} setEdit={setEdit} fetchUserAreas={fetchUserAreas} setAreaData={setAreaData} areaData={areaData} />}></Route>
+          <Route path="/generateqr" element={<GenerateQRList fetchItemsByArea={fetchItemsByArea} setSelectedArea={setSelectedArea} setSelectedItemFromP={setSelectedItem}/>}></Route>
+          <Route path="/services" element={<Services/>}></Route>
           <Route path="/additem" element={<AddItem edit={edit} setEdit={setEdit} selectedArea={selectedArea} selectedItem={selectedItem} setSelectedItem={setSelectedItem} itemData={itemData} setItemData={setItemData} fetchItemsByArea={fetchItemsByArea}/>}></Route>
           <Route path="/item" element={<ItemDetails selectedService={selectedService} setSelectedService={setSelectedService} fetchItemsByArea={fetchItemsByArea} edit={edit} setEdit={setEdit} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>}/>
           <Route path="item/addmaintenance" element={<AddMaintenance selectedItem={selectedItem} setSelectedService={setSelectedService} edit={edit} setEdit={setEdit} setSelectedItem={setSelectedItem} selectedService={selectedService}/>} />

@@ -1,3 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* All browsers */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: green;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+    background: green;
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #4CAF50; /* Green thumb */
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+    background: #45a049; /* Darker green */
+}
+
+/* Button */
+*::-webkit-scrollbar-button {
+    background-color: #555; /* Grey */
+}
+
+/* Button on hover */
+*::-webkit-scrollbar-button:hover {
+    background-color: #333; /* Dark grey */
+}
+
+/* Track */
+*::-webkit-scrollbar-track-piece {
+    background-color: #f1f1f1; /* Light grey */
+}
+
+/* Corner */
+*::-webkit-scrollbar-corner {
+    background-color: #999; /* Grey */
+}
+
+/* Resizer */
+*::-webkit-resizer {
+    background-color: #aaa; /* Light grey */
+}

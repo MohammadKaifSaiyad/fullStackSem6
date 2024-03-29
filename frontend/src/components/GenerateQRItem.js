@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-
+import { useNavigate } from 'react-router-dom';
 import { toast ,ToastContainer} from "react-toastify";
 import { MdOutlineQrCode } from "react-icons/md";
 import {
@@ -11,9 +11,9 @@ import {
     Typography,
     ListItemSuffix,
   } from "@material-tailwind/react";
-const GenerateQRItem = ({item, selectedItem, setIsQRAvailable, isQrAvailable, setQrData, qrData}) => {
+const GenerateQRItem = ({fetchItemsByArea, item, setSelectedArea,setSelectedItemFromP, selectedItem, setSelectedItem, setIsQRAvailable, isQrAvailable, setQrData, qrData}) => {
   
-  
+  const navigate = useNavigate();
   const handleGenerateQR =async ()=>{
     console.log(item._id);
     const options = {
@@ -36,9 +36,15 @@ const GenerateQRItem = ({item, selectedItem, setIsQRAvailable, isQrAvailable, se
       toast.error('Can not generate qr!')
     })
   }
+  const handleShowItemDetails = ()=>{
+    setSelectedItemFromP(item);
+    setSelectedArea(item.area);
+    fetchItemsByArea(item.area);
+    navigate("/user/item");
+  }
   return (
     <div className='flex'>
-    <ListItem className="m-2 flex" onClick={()=>{console.log(item)}}>
+    <ListItem className="m-2 flex" onClick={handleShowItemDetails}>
       <ToastContainer/>
       
       <ListItemPrefix className="w-1/6">
@@ -46,11 +52,11 @@ const GenerateQRItem = ({item, selectedItem, setIsQRAvailable, isQrAvailable, se
           variant="circular"
           alt="Item Image"
           src={item.imageUrl?item.imageUrl:require('./img/default-placeholder.png')}
-          className="w-20 h-20"
+          className="w-24 h-24"
         />
       </ListItemPrefix>
       <div className="alig w-5/6 flex flex-col">
-        <Typography variant="h6" color="blue-gray" className="self-start">
+        <Typography variant="h6" color="blue-gray" className="self-start text-lg">
           {item.name}
         </Typography>
         <Typography variant="small" color="gray" className="font-normal self-end mr-16">

@@ -10,7 +10,7 @@ const serviceModel = require('../models/serviceSchema');
 const { json } = require('body-parser');
 
 router.post('/getareas',checkCookies ,async (req, res)=>{
-    await loggedinuser.findById(req.body.user_id).populate('areas','name')
+    await loggedinuser.findById(req.body.user_id).populate('areas')
     .then(user=>{
         console.log(user)
         if(!user)
@@ -33,6 +33,24 @@ router.post('/addarea',checkCookies ,async(req,res)=>{
     const userId=req.body.user_id;
     console.log("request body for addarea", req.body);
     console.log("inside back addarea",userId);
+    if(req.body.area_id){
+        const area = await areaModel.findById(req.body.area_id)
+        console.log("inside edit area")
+        if(!area){
+            res.json({
+                status: 'FAILED',
+                message: 'Area not found!'
+            })
+            return res;
+        }
+        area.name = req.body.area;
+        area.location = req.body.area_location;
+        await area.save();
+        res.json({
+            status: 'SUCCESS',
+        })
+        return res;
+    }
     let areaId;
     const newArea = new areaModel({
         name:req.body.area,
@@ -229,6 +247,43 @@ router.post('/getitem',checkCookies ,async (req, res)=>{
     })
 })
 
+router.post('/searchservice/:key', checkCookies, async (req, res)=>{
+    console.log('param: ', req.params.key)
+    try{
+        const items = await itemModel.find({
+            "$or":[
+                {"name":{$regex: req.params.key}},
+                {"serialNumber":{$regex:req.params.key}},
+                {"servicePending.serviceDate":{$regex:req.params.key}},
+                {"servicesHistory.serviceDate":{$regex:req.params.key}}
+            ],
+            "$and":[{user:req.body.user_id}]
+        }).populate('servicesHistory').populate('servicePending').then(items=>{
+            console.log('searched item', items)
+            if(!items){
+                res.json({
+                    status:"SUCCESS",
+                    items:null
+                })
+                return res;
+            }
+            res.json({
+                status:"SUCCESS",
+                items:items
+            })
+            return res;
+        })
+        
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:"Error while searching backend!"
+        })
+        console.log("Error: ", err);
+        return res;
+    }
+})
+
 router.post('/search/:key',checkCookies, async(req,res)=>{
     console.log(req.params.key);
     if(req.body.type==="byUserId"){
@@ -288,7 +343,8 @@ router.post('/deleteitem',checkCookies,async (req, res)=>{
             })
             return res;
         }
-        await area.items.filter(item=> item._id != req.body.item_id);
+        const newItemList = await area.items.filter(item=> {return item._id != req.body.item_id});
+        area.items = newItemList;
         await itemModel.findByIdAndDelete(req.body.item_id);
         await area.save();
         res.json({
@@ -543,8 +599,9 @@ router.post('/deleteservice', async(req, res)=>{
             })
             return res;
         }
-        await item.servicePending.filter(service=> service._id != req.body.service_id);
+        const newPendingService = await item.servicePending.filter(service=> {return service._id != req.body.service_id});
         console.log('after delete: ', await serviceModel.findByIdAndDelete(req.body.service_id))
+        item.servicePending = newPendingService;
         item.save();
         res.json({
             status:'SUCCESS',
@@ -718,6 +775,78 @@ router.post('/confirmservice', checkCookies, async (req, res)=>{
         res.json({
             status:'FAILED',
             message:'Error while confirming service!'
+        })
+        return res;
+    }
+})
+
+router.post('/getallservices', checkCookies, async(req, res)=>{
+    console.log("fetching ServiceList :")
+    try{
+    console.log("fetching ServiceList :----------------------------------------------------", req.body.user_id)
+        const items = await itemModel.find({user:req.body.user_id}).populate('servicesHistory').populate('servicePending')
+        const services = [];
+        console.log("itemsList :", items)
+        await items.map(item => {
+            services.push(...item.servicePending);
+            services.push(...item.servicesHistory);
+        })
+        console.log('servicelist: ', services)
+        res.json({
+            status:'SUCCESS',
+            services:services,
+            items, items
+        })
+        return res;
+    }catch(err){
+        console.log("error: ",err);
+        res.json({
+            status:'FAILED',
+            message:'Error while fetching serviceList!'
+        })
+        return res;
+    }
+})
+
+router.post('/deletearea', checkCookies, async(req, res)=>{
+    try{
+        const area = await areaModel.findById(req.body.area_id);
+        if(!area){
+            res.json({
+                status:'FAILED',
+                message:'cannot find area!'
+            })
+            return res;
+        }
+        const user = await loggedinuser.findById(req.body.user_id);
+        if(!user){
+            res.json({
+                status:'FAILED',
+                message:'cannot find user!'
+            })
+        return res;
+        }
+        const newArea = user.areas.filter(areaId=>areaId!=req.body.area_id);
+        user.areas = newArea;
+        await user.save();
+        await area.items.map(async itemId=>{
+            const item = await itemModel.findById(itemId);
+            item.servicePending.map(async serviceId=>await serviceModel.findByIdAndDelete(serviceId));
+            item.servicesHistory.map(async serviceId=>await serviceModel.findByIdAndDelete(serviceId));
+            item.save();
+            await itemModel.findByIdAndDelete(itemId);
+        })
+        await areaModel.findByIdAndDelete(area._id);
+        res.json({
+            status:'SUCCESS',
+            message:''
+        })
+        return res;
+    }catch(err){
+        console.log("error: ",err);
+        res.json({
+            status:'FAILED',
+            message:'Error while deleting area!'
         })
         return res;
     }

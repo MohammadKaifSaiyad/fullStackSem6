@@ -43,14 +43,14 @@ function Item({ item, selectedItem, setSelectedItem}) {
           variant="circular"
           alt="Item Image"
           src={item.imageUrl?item.imageUrl:require('./img/default-placeholder.png')}
-          className="w-20 h-20"
+          className="w-24 h-24"
         />
       </ListItemPrefix>
       <div className="alig w-5/6 flex flex-col">
-        <Typography variant="h6" color="blue-gray" className="self-start">
+        <Typography variant="h6" color="blue-gray" className="self-start text-xl">
           {item.name}
         </Typography>
-        <Typography variant="small" color="gray" className="font-normal self-end mr-16">
+        <Typography variant="small" color="gray" className="font-normal self-end mr-16 text-md">
           S/N: {item.serialNumber}
         </Typography>
       </div>

@@ -104,7 +104,8 @@ function DBNav({fetchUserProfile, userProfile}) {
   
    <div className='p-4 flex flex-col'>
    {
-    notifications.map(notif=><List><Notification fetchNotification={fetchNotification} notif={notif}/></List>)
+      notifications? notifications.map(notif=><List><Notification fetchNotification={fetchNotification} notif={notif}/></List>):
+      <div className='text-black'>No New Notification</div>
    }
    </div>
    
