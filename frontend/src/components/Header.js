@@ -1,45 +1,19 @@
-import './Header.css'
+// import './Header.css'
 import { Link } from 'react-router-dom';
 
-function Header(){
-    // return(<div className="header fixed-top">
-    //     <div className='nav-logo'>
-    //         <h1 className="logo">InventoFlow</h1>
-    //     </div>
-    //     <nav className="nav-class">
-    //         <div className="first-nav">
-    //             <ul>
-    //                 <li><Link className='link-style' to="/">Home</Link></li>
-    //                 <li><Link className='link-style' to="/about">AboutUs</Link></li>
-    //                 <li><Link className='link-style' to="/contact">Contact</Link></li>
-    //             </ul>
-    //         </div>
-    //         <div className='second-nav'>
-    //             <ul>
-    //                 <li>
-    //                 <Link className='link-style' to="/signup-form">signup</Link>
-    //                 </li>
-    //                 <li>
-    //                 <Link className='link-style' to="/user/login">login</Link>
-    //                 </li>
-    //             </ul>
-    //         </div>
-    //     </nav>
-    // </div>);
-
+function Header({scrollToFeacture}){
     return(<>
-    <header className="header">
-        
-        {/* <a href="#" class="logo"><img src="New Project.jpg">InventoFlow</a> */}
-        {/* <Link to="/" className='logo'><img src={require('./img/New Project.jpg')}/>InventoFlow</Link> */}
-        <Link to='/'><img className='w-20' src={require('./img/logo-white-transparent.png')}/></Link>
-
-        <nav class="navbar">
-            <Link to="/">Home</Link>
-            <Link to="/signup">Sign up</Link>
-            <Link to="/signin">Sign in</Link>
-            <Link to="/aboutus">About us</Link>
-            <Link to="/contact">Contact us</Link>
+    <header className="bg-customeColor-300 flex flex-row p-2 w-full sticky top-0 z-40">
+        <div className='w-3/6'>
+            <Link to='/' className=''><img className='h-14 ml-2 transition ease-in-out duration-300 hover:-translate-y-1' src={require('./img/logo-white-transparent.png')}/></Link>
+        </div>
+        <nav class="items-center justify-items-center justify-around flex w-3/6 mx-10 font-medium text-lg text-white">
+            <Link to="/" className='hover:text-customeColor-400 hover:border-b-2 hover:border-customeColor-400 hover:rounded-sm  border-scale-0 hover:-translate-y-1 transition ease-in-out  duration-300'>Home</Link>
+            <Link to="/#features" onClick={scrollToFeacture} className='hover:text-customeColor-400 hover:border-b-2 hover:border-customeColor-400 hover:rounded-sm hover:-translate-y-1 transition ease-in-out  duration-300'>Features</Link>
+            <Link to="/aboutus" className='hover:text-customeColor-400 hover:border-b-2 hover:border-customeColor-400 hover:rounded-sm hover:-translate-y-1 transition ease-in-out  duration-300'>About us</Link>
+            <Link to="/contact" className='hover:text-customeColor-400 hover:border-b-2 hover:border-customeColor-400 hover:rounded-sm hover:-translate-y-1 transition ease-in-out  duration-300'>Contact us</Link>
+            <Link to="/signin" className='hover:text-customeColor-400 hover:border-b-2 hover:border-customeColor-400 hover:rounded-sm hover:-translate-y-1 transition ease-in-out  duration-300'>Log in</Link>
+            {/* <Link to="/signin">Sign in</Link> */}
         </nav>
     </header>
     </>)

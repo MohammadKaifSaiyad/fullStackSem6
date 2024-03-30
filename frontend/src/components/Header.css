@@ -88,7 +88,7 @@ ul > li{
     left: 0;
     width: 100%;
     padding: 20px 100px;
-    background: #340b01;
+    /* background: #340b01; */
     /* background: #6b8f24; */
     display: flex;
     justify-content:space-between;

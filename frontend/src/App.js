@@ -11,6 +11,7 @@ import GetProfile from './components/GetProfile';
 import ViewItem from './components/ViewItem';
 import { Context } from './Context';
 import { useState } from 'react';
+import Contact from './components/Contact';
 function App() {
   const [viewOnly, setViewOnly] = useState(false);
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path='/signup' element={<Signup/>}/>
         <Route exact path='/verifyotp' element={<VerifyOpt/>}/>
         <Route exact path='/user/*' element={<UserDashboard/>}/>
+        <Route exact path='/contact' element={<Contact/>} />
         <Route exact path='/getprofile' element={<GetProfile/>}/>
         <Route exact path='/signin' element={<Login/>}/>
         <Route exact path='/verifyemail' element={<VerifyOpt/>}/>
