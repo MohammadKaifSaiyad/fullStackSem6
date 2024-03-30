@@ -65,7 +65,7 @@ const GenerateQRItem = ({fetchItemsByArea, item, setSelectedArea,setSelectedItem
       </div>
       
     </ListItem>
-    <MdOutlineQrCode onClick={handleGenerateQR} className='cursor-pointer self-center' size={30}/>
+    <MdOutlineQrCode onClick={handleGenerateQR} className='cursor-pointer text-customeColor-400 self-center' size={30}/>
     </div>
     
   )

@@ -50,8 +50,8 @@
   }
   
   .db-nav {
-    background-color: #340b01;
-    color: #fff;
+    /* background-color: #340b01; */
+    /* color: #fff; */
     height: 2.5rem;
     display: flex;
     justify-content: space-between;
@@ -64,7 +64,7 @@
   }
   
   .nav-logout-btn {
-    background-color: red;
+    /* background-color: red; */
     padding: 3px 10px;
     border-radius: 20px;
     cursor: pointer;

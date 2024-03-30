@@ -236,9 +236,9 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
           <div className="font-sans text-xl ml-4 mt-3 w-5/6">
             Item information
           </div>
-          <MdEdit className="mt-5 ml-20 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleEditItemDetails}/>
-          <MdOutlineQrCode className="mt-5 ml-2 w-5 h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleGenerateQR}/>
-          <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 cursor-pointer" onClick={handleDeleteItem} />
+          <MdEdit className="mt-5 ml-20 w-5 h-5 hover:border-2 hover:border-gray-700 text-customeColor-400 cursor-pointer" onClick={handleEditItemDetails}/>
+          <MdOutlineQrCode className="mt-5 ml-2 w-5 h-5 hover:border-2 hover:border-gray-700 text-customeColor-400 cursor-pointer" onClick={handleGenerateQR}/>
+          <MdDelete className="mt-5 ml-2 w-5 border-r h-5 hover:border-2 hover:border-gray-700 text-customeColor-400 cursor-pointer" onClick={handleDeleteItem} />
         </div>
         <Card className="mt-2 ml-4 flex">
           <div className="flex flex-row mt-5">
@@ -269,7 +269,7 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
               className="w-24 h-24 ml-10 mr-2 self-start mt-2"
             />
           </div>
-          <button className="self-end px-2 h-8 text-white bg-gray-600 border-l rounded m-4" onClick={handleAddMaintenance}>
+          <button className="self-end px-2 h-8 text-white bg-customeColor-400 border-l rounded m-4" onClick={handleAddMaintenance}>
             Add Maintenance
           </button>
           <div class="flex justify-center">

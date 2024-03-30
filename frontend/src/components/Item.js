@@ -37,7 +37,7 @@ function Item({ item, selectedItem, setSelectedItem}) {
     })
   }
   return (
-    <ListItem className="m-2 flex" onClick={handelItemDisplay}>
+    <ListItem className=" flex bg-white" onClick={handelItemDisplay}>
       <ListItemPrefix className="w-1/6">
         <Avatar
           variant="circular"

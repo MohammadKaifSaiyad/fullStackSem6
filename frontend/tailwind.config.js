@@ -153,6 +153,12 @@ module.exports = {
       cyan: colors.cyan,
       sky: colors.sky,
       blue: colors.blue,
+      customeColor:{
+        100:'#F4EDCC',
+        200: '#A4CE95',
+        300: '#6196A6',
+        400: '#5F5D9C'
+      },
       indigo: colors.indigo,
       violet: colors.violet,
       purple: colors.purple,

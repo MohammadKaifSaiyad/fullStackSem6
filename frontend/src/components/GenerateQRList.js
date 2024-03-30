@@ -66,7 +66,7 @@ const GenerateQRList=({fetchItemsByArea, setSelectedArea, setSelectedItemFromP})
       }
       useEffect(()=>{fetchAllItems()},[])
   return (
-    <div className='h-5/6 flex flex-col w-full'>
+    <div className='h-full flex flex-col w-full'>
       <ToastContainer/>
       {
         qrData  &&
@@ -91,7 +91,7 @@ const GenerateQRList=({fetchItemsByArea, setSelectedArea, setSelectedItemFromP})
               ref={searchRef}
           />
       </div>
-      <Card className='grow h-5/6'>
+      <Card className='grow h-4/6'>
         <List className="overflow-y-scroll ">
           <div className="">
             {
