@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { FaLockOpen, FaLock } from "react-icons/fa";
 function Login() {
   const [delay, setDelay] = useState(false);
   const [email, setEmail] = useState("");
@@ -24,44 +24,52 @@ function Login() {
     // navigate('/auth/google')
     window.location.href = "https://inventoflow.onrender.com/auth/google";
   };
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setDelay(true);
-    const check = checkDetails(email, password);
+    const userEmail = email.trim();
+    const userPassword = password.trim();
+    const check = checkDetails(userEmail, userPassword);
     if (check != 0) {
       console.log('entered data is not in proper format')
+      toast.error('invalid data');
     }
     const reqdata = {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-      body: await JSON.stringify({ email: email, password: password }),
+      body: await JSON.stringify({ email: userEmail, password: userPassword }),
     };
 
     await fetch("/api/user/login", reqdata)
       .then((res) => res.json())
       .then(async (data) => {
-        setDelay(false);
-        console.log("data after fecth form login", data);
-        navigate("/user");
+        if(data.status==='SUCCESS'){
+          setDelay(false);
+          console.log("data after fecth form login", data);
+          navigate("/user");
+        }else{
+          toast.error(data.message);
+        }
       });
 
     setEmail("");
     setPassword("");
   };
   const handleShowPassword = () => {
-    if (document.getElementById("password").type == "password") {
-      document.getElementById("showPassword").className = "bx bx-lock-open-alt";
-      document.getElementById("password").type = "text";
-    } else {
-      document.getElementById("showPassword").className = "bx bx-lock-alt";
-      document.getElementById("password").type = "password";
-    }
+    setShowPassword(!showPassword);
+    document.getElementById("password").type = "text";
+  };
+  const handleHidePassword = () => {
+    setShowPassword(!showPassword);
+    document.getElementById("password").type = "password";
   };
   return (
     <div className="login-container">
+      <ToastContainer />
       <div className="wrapper">
         <div
           type="google"
@@ -86,7 +94,7 @@ function Login() {
             />
             <i class="bx bx-user"></i>
           </div>
-          <div class="input-box">
+          <div class="input-box flex">
             <input
               type="password"
               placeholder="Password"
@@ -97,18 +105,20 @@ function Login() {
               id="password"
               required
             />
-            <i
+            <i>
+              {
+                showPassword? <FaLockOpen id="showPassword" className="cursor-pointer" onClick={handleHidePassword}/>: <FaLock id="showPassword" className="cursor-pointer" onClick={handleShowPassword}/>
+              }
+            </i>
+            {/* <i
               class="bx bx-lock-alt"
               onClick={handleShowPassword}
               id="showPassword"
-            ></i>
+            ></i> */}
           </div>
 
           <div class="remember-forgot">
-            <label>
-              <input type="checkbox" /> Remember me
-            </label>
-            <Link href="#">Forgot password?</Link>
+            <Link to="/forgotpwd">Forgot password?</Link>
           </div>
 
           <button type="submit" class="btn" disabled={delay}>

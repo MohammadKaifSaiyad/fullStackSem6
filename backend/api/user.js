@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
         if (!isMatch) {
           res.json({
             status: "FAILED",
-            message: "user not found with given data",
+            message: "wrong email or password",
           });
           return res;
         } else {
@@ -319,4 +319,6 @@ router.post("/createloggedinuser", async (req, res) => {
   });
   return res;
 });
+
+
 module.exports = router;

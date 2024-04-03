@@ -12,6 +12,8 @@ import ViewItem from './components/ViewItem';
 import { Context } from './Context';
 import { useState } from 'react';
 import Contact from './components/Contact';
+import ForgotPwd from './components/ForgotPwd';
+import ResetPwd from './components/ResetPwd';
 function App() {
   const [viewOnly, setViewOnly] = useState(false);
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route exact path='/signin' element={<Login/>}/>
         <Route exact path='/verifyemail' element={<VerifyOpt/>}/>
         <Route exact path='/view/itemdetails/:itemId' element={<ViewItem/>}/>
+        <Route exact path='/forgotpwd' element={<ForgotPwd/>} />
+        <Route exact path='/reset-pwd' element={<ResetPwd/>} />
       </Routes>
     </div>
     </Context.Provider>

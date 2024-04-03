@@ -6,8 +6,10 @@ import VerifyOpt from "./VerifyOpt";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaLockOpen, FaLock } from "react-icons/fa";
 
 function Signup() {
+  const [showPassword, setShowPassword] = useState(false);
   const [delay, setDelay]= useState(false);
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
@@ -22,8 +24,8 @@ function Signup() {
     } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       toast.error('Enter a valid email');
       return 2;
-    } else if (password.length < 8) {
-      toast.error('password length is less than 8');
+    } else if (!/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(password)) {
+      toast.error('password must follow format');
       return 3;
     }
     else if(password != cpassword){
@@ -79,17 +81,14 @@ function Signup() {
     setPassword("");
     setCPassword("");
   };
-
   const handleShowPassword = () => {
-    if (document.getElementById("password").type == "password") {
-      document.getElementById("showPassword").className = "bx bx-lock-open-alt";
-      document.getElementById("password").type = "text";
-    } else {
-      document.getElementById("showPassword").className = "bx bx-lock-alt";
-      document.getElementById("password").type = "password";
-    }
+    setShowPassword(!showPassword);
+    document.getElementById("password").type = "text";
   };
-
+  const handleHidePassword = () => {
+    setShowPassword(!showPassword);
+    document.getElementById("password").type = "password";
+  };
   return (
     
     <div className="signup-container">
@@ -149,13 +148,19 @@ function Signup() {
               id="password"
               required
             />
-            <i
-              class="bx bx-lock-alt"
-              onClick={handleShowPassword}
-              id="showPassword"
-            ></i>
+            <i>
+              {
+                showPassword? <FaLockOpen id="showPassword" className="cursor-pointer" onClick={handleHidePassword}/>: <FaLock id="showPassword" className="cursor-pointer" onClick={handleShowPassword}/>
+              }
+            </i>
           </div>
-          
+          <p className='text-sm'>Password must contain </p>
+        <div className='ml-1 text-xs mb-3'>
+            <p>one digit, no space,</p>
+            <p>one lowercase & uppercase letter,</p> 
+            <p>one special character,</p> 
+            <p> and it must be 8-16 characters long.</p>
+        </div>
 
           <button type="submit" class="btn" disabled={delay}>
             Submit
@@ -166,6 +171,7 @@ function Signup() {
               Already have an account? <Link to="/signin">Sign in</Link>
             </p>
           </div>
+          
         </form>
       </div>
     </div>

@@ -55,7 +55,7 @@ function Home(){
         <div className='flex flex-row mx-auto w-4/6 mt-24 z-0'>
             <div className='w-3/6 self-center'>
                 <div className='text-6xl text-justify self-center  font-semibold text-customeColor-300  justify-self-center'>Inventory Management Reinvented</div>
-                <div className='p-1 flex'><div className='me-0.5 text-customeColor-400 font-medium text-xl'>InventoFlow</div> <p className='text-customeColor-200 text-xl font-normal'>Where Maintenance Meets Efficiency.</p></div>
+                <div className='p-1 flex'><div className='animate-bounce duration-1000 me-0.5 text-customeColor-400 font-medium text-xl'>InventoFlow</div> <p className='text-customeColor-200 text-xl font-normal'>Where Maintenance Meets Efficiency.</p></div>
                 <button className='hover:bg-customeColor-200 hover:-translate-y-1 hover:scale-110 transition ease-in-out delay-50 duration-300 mt-2 px-5 py-2 rounded-xl text-white bg-customeColor-400' onClick={()=>{navigate("/signup")}}>Get Started</button>
             </div>
             <div className='w-3/6 flex flex-row'>

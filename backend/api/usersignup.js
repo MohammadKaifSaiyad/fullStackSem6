@@ -6,6 +6,7 @@ const usersignup = require('../models/usersignupSchema')
 const transporter = require('./transporter')
 const speakeasy = require('speakeasy');
 const axios = require('axios');
+const { sign } = require('jsonwebtoken');
 
 /* 1. checking user email in database.
    2. sendign verification code to the email.
@@ -22,7 +23,7 @@ const sendMailOnEmail = async (email, code)=>{
         from: 'demoweb809@gmail.com',
         to: email,
         subject: "Verify Your Email",
-        html: `<p>Verify your email for signup and login into your account.</p><p>This Code <b>${code}</b>.</p>`
+        html: `<p>Verify your email for login into your account.</p><p>This Code <b>${code}</b>.</p>`
     }
     console.log("after mailop")
     await transporter.sendMail(mailOpetions)
@@ -149,5 +150,131 @@ router.post('/verifyemail',async (req, res, next)=>{
     
 })
 
+router.post('/send-email', async(req, res)=>{
+    try{
+        console.log('inside send-email');
+        const mailOpetions = {
+            to: 'demoweb809@gmail.com',
+            subject: `Contact Us`,
+            html: `<h3>Email: ${req.body.userEmail}</h3><h4>Subject: ${req.body.subject}</h4><p>Message: ${req.body.message}</p>`
+        }
+        await transporter.sendMail(mailOpetions)
+                .then(()=>{
+                    console.log("mail is sended");
+                }).catch(err=>{
+                    console.log("error due to sending mail",err)
+                    res.json({
+                        status: "FAILED",
+                        message: "Error while sending email",
+                      });
+                      return res;
+                });
+    }catch(err){
+      console.error("error: ", err);
+      res.json({
+        status: "FAILED",
+        message: "Error while sending email",
+      });
+      return res;
+    }
+});
+
+  router.post('/forgotpwd', async(req, res)=>{
+    try{
+        const user = await loggedinuser.findOne({userEmail: req.body.email});
+        if(!user){
+            res.json({
+                status: "FAILED",
+                message: "invalid user email!",
+            });
+            return res;
+        }
+        const code = await sendCode(req, res);
+        const newSginup = new usersignup({
+            userName: user.userName, 
+            userEmail: user.userEmail,
+            hashedPassword: 'N/A',
+            code: code,
+            onDate: Date.now()
+        })
+        newSginup.save();
+        res.json({
+            status: "SUCCESS",
+            message: "now verify code!",
+          });
+          return res;
+    }catch(err){
+      res.json({
+        status: "FAILED",
+        message: "Error while resetting password!",
+      });
+      console.error('Error: ',err);
+      return res;
+    }
+});
+
+router.post('/reset-otp', async(req, res)=>{
+    try{
+        const signupuser = await usersignup.findOne({userEmail: req.body.email, code: req.body.otp});
+        console.log('userEmail and code: ', signupuser)
+        if(!signupuser){
+            res.json({
+                status: "FAILED",
+                message: "Wrong OTP!",
+            });
+            return res;
+        }
+        res.json({
+            status: "SUCCESS",
+            message: "otp verified successfully!",
+        });
+        return res;
+    }catch(err){
+      res.json({
+        status: "FAILED",
+        message: "Error while resetting password!",
+      });
+      console.error('Error: ',err);
+      return res;
+    }
+});
+
+router.post('/reset-pwd', async(req, res)=>{
+    try{
+        const user = await loggedinuser.findOne({userEmail: req.body.email});
+        console.log(user)
+        if(!user){
+            res.json({
+                status: "FAILED",
+                message: "No user found!",
+            });
+            return res;
+        }
+        const signup = await usersignup.findOne({userEmail: req.body.email})
+        console.log(signup)
+        if(!signup){
+            res.json({
+                status: "FAILED",
+                message: "No user found!",
+            });
+            return res;
+        }
+        await usersignup.findByIdAndDelete(signup._id);
+        user.hashedPassword = req.body.password;
+        await user.save();
+        res.json({
+            status: "SUCCESS",
+            message: "password reset successfully!",
+        });
+        return res;
+    }catch(err){
+      res.json({
+        status: "FAILED",
+        message: "Error while resetting password!",
+      });
+      console.error('Error: ',err);
+      return res;
+    }
+});
 
 module.exports  = router
