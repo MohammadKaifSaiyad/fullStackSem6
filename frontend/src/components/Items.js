@@ -76,7 +76,7 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
                   ref={searchRef}
                 />
               </div>
-              <Card className="h-full m-1 bg-customeColor-100">
+              <Card className="h-4/5 m-1 bg-customeColor-100">
                 <List className="overflow-y-scroll">
                   <div className="">
                     {
