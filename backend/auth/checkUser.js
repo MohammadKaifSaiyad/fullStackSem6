@@ -13,7 +13,7 @@ module.exports.checkUser = (req, res, next)=>{
         }
         if(decode){
             req.body.user_id = decode.userId;
-            res.redirect(`https://inventoflow.vercel.app/user/item/${req.params.item_id}`);
+            res.redirect(`https://inventoflow.onrender.com/user/item/${req.params.item_id}`);
         }
     })
 }

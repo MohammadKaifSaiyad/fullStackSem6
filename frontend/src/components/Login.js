@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaLockOpen, FaLock } from "react-icons/fa";
+import axios from 'axios';
 function Login() {
   const [delay, setDelay] = useState(false);
   const [email, setEmail] = useState("");
@@ -54,8 +55,14 @@ function Login() {
           navigate("/user");
         }else{
           toast.error(data.message);
+          setDelay(false);
         }
-      });
+      })
+      .catch(err=>{
+        console.log('error: ',err);
+        setDelay(false);
+        toast.error('Failed to login');
+      })
 
     setEmail("");
     setPassword("");

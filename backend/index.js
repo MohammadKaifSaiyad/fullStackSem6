@@ -36,11 +36,13 @@ const checkSession = (req, res, next) => {
 };
 alertJob.start();
 const corsOptions = {
-    origin: 'https://inventoflow.vercel.app',
+    // origin: 'https://inventoflow.vercel.app',
+    origin:'http://localhost:3000',
     credentials: true
 };
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://inventoflow.vercel.app");
+    // res.header("Access-Control-Allow-Origin", "https://inventoflow.vercel.app");
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Credentials", true);
