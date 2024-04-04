@@ -15,9 +15,10 @@ const ForgotPwd = () => {
             headers: {
               "Content-type": "application/json; charset=UTF-8",
             },
+            credentials:'include',
             body: await JSON.stringify({ email: email}),
         };
-        fetch('/api/forgotpwd', options)
+        fetch('https://inventoflow.onrender.com/api/forgotpwd', options)
         .then(res=>res.json())
         .then(data=>{
             if(data.status === 'SUCCESS'){
@@ -36,9 +37,10 @@ const ForgotPwd = () => {
             headers: {
               "Content-type": "application/json; charset=UTF-8",
             },
+            credentials:'include',
             body: await JSON.stringify({ email: email, otp: userOTP}),
         };
-        fetch('/api/reset-otp', options)
+        fetch('https://inventoflow.onrender.com/api/reset-otp', options)
         .then(res=>res.json())
         .then(data=>{
             if(data.status === 'SUCCESS'){

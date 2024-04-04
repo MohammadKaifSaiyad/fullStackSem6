@@ -34,8 +34,9 @@ function DBNav({fetchUserProfile, userProfile}) {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+      credentials:'include',
     };
-    fetch('/api/user/logout',reqdata)
+    fetch('https://inventoflow.onrender.com/api/user/logout',reqdata)
     .then((res) => res.json())
     .then(async (data) => {
       console.log(data);
@@ -53,8 +54,9 @@ function DBNav({fetchUserProfile, userProfile}) {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+      credentials:'include',
     };
-    fetch('/items/getnotifications', reqdata)
+    fetch('https://inventoflow.onrender.com/items/getnotifications', reqdata)
     .then(res=>res.json())
     .then(data=>{
       if(data.status === 'SUCCESS'){

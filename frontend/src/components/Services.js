@@ -16,9 +16,10 @@ const Services = () => {
         fetchServiceList();
         return;
       }
-      const url = `/items/searchservice/${searchRef.current.value}`
+      const url = `https://inventoflow.onrender.com/items/searchservice/${searchRef.current.value}`
       const option = {
         method:"POST",
+        credentials:'include',
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         }
@@ -47,8 +48,9 @@ const Services = () => {
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
+          credentials:'include',
         };
-        fetch('/items/getallservices', reqdata)
+        fetch('https://inventoflow.onrender.com/items/getallservices', reqdata)
           .then(res=>res.json())
           .then(data=>{
             if(data.status === 'SUCCESS'){

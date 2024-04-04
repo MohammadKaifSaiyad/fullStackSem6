@@ -35,7 +35,10 @@ const checkSession = (req, res, next) => {
     }
 };
 alertJob.start();
-
+const corsOptions = {
+    origin: 'https://inventoflow.vercel.app/',
+    credentials: true
+};
 app.use(cookieParser())
 app.use(urlencodedParser)
 app.use(jsonParser)
@@ -43,7 +46,7 @@ app.use(session({secret: process.env.SESSION_KEY,resave: false,saveUninitialized
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.urlencoded())
-app.use(cors())
+app.use(cors(corsOptions))
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage,limits: { fileSize: 5 * 1024 * 1024 } });
 app.use(upload.single('image'));

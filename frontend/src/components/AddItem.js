@@ -71,7 +71,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
     formData.append('generate_qr', itemData.generate_qr);
     formData.append('area_id',selectedArea);
     try{
-      await axios.post('http://localhost:5000/api/user/additem', formData, {})
+      await axios.post('https://inventoflow.onrender.com/api/user/additem', formData, {withCredentials:true})
       .then(res=>res.data)
       .then(data=>{
         if(data.status==='SUCCESS'){
@@ -121,6 +121,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
       // headers: {
       //   'Content-Type': 'multipart/form-data',
       // },
+      withCredentials:true
     }).then(res => res.data)
     .then(async result=>{
       if(result.status === 'SUCCESS'){

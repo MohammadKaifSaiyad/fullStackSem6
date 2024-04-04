@@ -27,11 +27,12 @@ function AddArea({areaList, areaData, setAreaData, fetchUserAreas}) {
     console.log("inside add area call",areaData);
     const data = await JSON.stringify(areaData);
     console.log("area as json:",data);
-    fetch('/items/addarea',{
+    fetch('https://inventoflow.onrender.com/items/addarea',{
       method:"POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+      credentials:'include',
       body: data
     }).then(res=>res.json())
     .then(data=>{
@@ -55,9 +56,10 @@ function AddArea({areaList, areaData, setAreaData, fetchUserAreas}) {
       const reqBody = {
         method:'POST',
         headers:{'content-type': 'application/json'},
+        credentials:'include',
         body:await JSON.stringify({area_id:area._id})
       }
-      fetch('/items/deletearea',reqBody)
+      fetch('https://inventoflow.onrender.com/items/deletearea',reqBody)
       .then(res=>res.json())
       .then(data=>{
         if(data.status === 'SUCCESS'){

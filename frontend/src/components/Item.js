@@ -20,9 +20,10 @@ function Item({ item, selectedItem, setSelectedItem}) {
     const options = {
       method:'POST',
       headers:{'content-type': 'application/json'},
+      credentials:'include',
       body:await JSON.stringify({item_id:item._id})
     }
-    fetch('/items/getitem',options)
+    fetch('https://inventoflow.onrender.com/items/getitem',options)
     .then(res=>res.json())
     .then(data=>{
       if(data.status ==='SUCCESS'){

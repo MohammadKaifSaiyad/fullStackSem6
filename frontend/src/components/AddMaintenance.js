@@ -61,9 +61,10 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
       headers:{
         'content-type': 'application/json'
       },
+      credentials:'include',
       body: await JSON.stringify({...serdata})
     }
-    fetch('/items/addmaintenance', options)
+    fetch('https://inventoflow.onrender.com/items/addmaintenance', options)
     .then(res=>res.json())
     .then(data=>{
       if(data.status === 'SUCCESS'){
@@ -97,9 +98,10 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
       headers:{
         'content-type': 'application/json'
       },
+      credentials:'include',
       body: await JSON.stringify({...serdata})
     }
-    fetch('/items/addmaintenance', options)
+    fetch('https://inventoflow.onrender.com/items/addmaintenance', options)
     .then(res=>res.json())
     .then(data=>{
       if(data.status === 'SUCCESS'){

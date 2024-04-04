@@ -45,12 +45,13 @@ function VerifyOpt() {
   const handleResendCode = async()=>{
     startCountdown();
     const data = sessionStorage.getItem("userdata");
-    const url = '/api/usersignup'
+    const url = 'https://inventoflow.onrender.com/api/usersignup'
     const reqdata = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
+      credentials:'include',
       body: data,
     };
     // console.log(JSON.parse(data));
@@ -81,9 +82,10 @@ function VerifyOpt() {
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
+      credentials:'include',
       body: await JSON.stringify(userdata),
     };
-    await fetch('/api/verifyemail',reqdata)
+    await fetch('https://inventoflow.onrender.com/api/verifyemail',reqdata)
     .then(res=>res.json())
     .then(data=>{
       console.log(data);

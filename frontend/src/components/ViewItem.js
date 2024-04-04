@@ -29,9 +29,10 @@ function ViewItem() {
       const option = {
         method:'POST',
         headers:{'content-type': 'application/json'},
+        credentials:'include',
         body:await JSON.stringify({item_qr: params.itemId})
       }
-      fetch('/items/getitemforview',option)
+      fetch('https://inventoflow.onrender.com/items/getitemforview',option)
       .then(res=>res.json())
       .then(data=>{
         if(data.status === 'SUCCESS'){

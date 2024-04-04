@@ -36,9 +36,10 @@ const ResetPwd= () => {
             headers: {
               "Content-type": "application/json; charset=UTF-8",
             },
+            credentials:'include',
             body: await JSON.stringify({ email: email, password: hpwd}),
         };
-        fetch('/api/reset-pwd', options)
+        fetch('https://inventoflow.onrender.com/api/reset-pwd', options)
         .then(res=>res.json())
         .then(data=>{
             if(data.status === 'SUCCESS'){

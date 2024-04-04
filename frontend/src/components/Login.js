@@ -41,10 +41,11 @@ function Login() {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+      credentials:'include',
       body: await JSON.stringify({ email: userEmail, password: userPassword }),
     };
 
-    await fetch("/api/user/login", reqdata)
+    await fetch("https://inventoflow.onrender.com/api/user/login", reqdata)
       .then((res) => res.json())
       .then(async (data) => {
         if(data.status==='SUCCESS'){

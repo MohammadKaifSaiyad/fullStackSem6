@@ -46,8 +46,9 @@ function User() {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+      credentials:'include',
     };
-    await fetch('api/user/getuserdata',reqdata)
+    await fetch('https://inventoflow.onrender.com/api/user/getuserdata',reqdata)
     .then(res=>res.json())
     .then(data=>{
       console.log('data of dbnav is ready:',data)
@@ -67,9 +68,10 @@ function User() {
       const options = {
         method:'POST',
         headers:{'content-type': 'application/json'},
+        credentials:'include',
         body:await JSON.stringify({area_id:selectedArea_by})
       }
-      fetch('/items/getitems',options)
+      fetch('https://inventoflow.onrender.com/items/getitems',options)
       .then(res=>res.json())
       .then(data=>{
         if(data.status =='SUCCESS'){
@@ -94,8 +96,9 @@ function User() {
   }
   const fetchUserAreas = async () => {
     console.log("inside fetch area");
-    fetch('/items/getareas',{
+    fetch('https://inventoflow.onrender.com/items/getareas',{
       method: "POST",
+      credentials:'include',
     }).then(res=>res.json())
     .then(data=>{
       if(data.status === 'SUCCESS'){
@@ -110,15 +113,8 @@ function User() {
   
   useEffect(() => {
     fetchUserAreas();
-  },[]);
-  useEffect(()=>{
     fetchUserProfile();
-    // console.log("fetchitmes by area is called by useEffect!")
-    // fetchItemsByArea();
-  },[])
-  useEffect(() => {
-    //callfetch funtion here...
-  }, []);
+  },[]);
 
   return (
     <div className="flex w-screen h-screen">

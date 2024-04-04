@@ -80,9 +80,10 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
     const options = {
       method:'POST',
       headers:{'content-type': 'application/json'},
+      credentials:'include',
       body:await JSON.stringify({item_id:selectedItem ? selectedItem._id:null})
     }
-    fetch('/items/getitem',options)
+    fetch('https://inventoflow.onrender.com/items/getitem',options)
     .then(res=>res.json())
     .then(data=>{
       if(data.status ==='SUCCESS'){
@@ -102,9 +103,10 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
     const option = {
       method:'POST',
       headers:{'content-type': 'application/json'},
+      credentials:'include',
       body:await JSON.stringify({item_qr: params.itemId})
     }
-    fetch('/items/getitembyqr',option)
+    fetch('https://inventoflow.onrender.com/items/getitembyqr',option)
     .then(res=>res.json())
     .then(data=>{
       if(data.status === 'SUCCESS'){
@@ -134,9 +136,10 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
       const options = {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
+          credentials:'include',
           body: JSON.stringify(data)
       };
-      fetch('/items/deleteitem', options)
+      fetch('https://inventoflow.onrender.com/items/deleteitem', options)
           .then(res => res.json())
           .then(data => {
               if (data.status === 'SUCCESS') {
@@ -157,9 +160,10 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
     const options = {
       method:'POST',
       headers:{'content-type': 'application/json'},
+      credentials:'include',
       body:await JSON.stringify()
     }
-    fetch('/items/getservices', options)
+    fetch('https://inventoflow.onrender.com/items/getservices', options)
     .then(res => res.json())
     .then(data =>{
       if(data.status = 'SUCCESS'){
@@ -190,9 +194,10 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
     const options = {
       method:'POST',
       headers:{'content-type': 'application/json'},
+      credentials:'include',
       body:await JSON.stringify(body)
     }
-    fetch('/items/deleteservice', options)
+    fetch('https://inventoflow.onrender.com/items/deleteservice', options)
     .then(res => res.json())
     .then(async data => {
       if(data.status === 'SUCCESS'){

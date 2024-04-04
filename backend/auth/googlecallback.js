@@ -68,7 +68,7 @@ router.get("/loginsuccess", async(req, res) => {
             res.cookie("jwt", token);
             // resd
             console.log("cookies:",token)
-            res.redirect('https://inventoflow.onrender.com/user');
+            res.redirect('https://inventoflow.vercel.app/user');
           }
 
           // user dashboard with given datas

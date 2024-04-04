@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
+  "proxy": "https://inventoflow.onrender.com/",
   "private": true,
   "dependencies": {
     "@coreui/react": "^4.11.1",

@@ -19,9 +19,10 @@ const GenerateQRItem = ({fetchItemsByArea, item, setSelectedArea,setSelectedItem
     const options = {
       method:'POST',
       headers:{'content-type': 'application/json'},
+      credentials:'include',
       body:await JSON.stringify({item_id:item._id})
     }
-    fetch('/items/generateqrcode',options)
+    fetch('https://inventoflow.onrender.com/items/generateqrcode',options)
     .then(res=>res.json())
     .then(data=>{
       if(data.status === 'SUCCESS'){

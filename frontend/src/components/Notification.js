@@ -17,9 +17,10 @@ const Notification = ({fetchNotification, notif}) => {
             headers: {
               "Content-type": "application/json; charset=UTF-8",
             },
+            credentials:'include',
             body: JSON.stringify({service_id: notif.service._id, item_id: notif.item._id})
           };
-        fetch('/items/confirmservice', reqdata)
+        fetch('https://inventoflow.onrender.com/items/confirmservice', reqdata)
         .then(res=>res.json())
         .then(data=>{
             if(data.status === 'SUCCESS'){

@@ -27,9 +27,10 @@ const Contact = () => {
         const options = {
             method:'POST',
             headers:{'content-type': 'application/json'},
+            credentials:'include',
             body:await JSON.stringify(data)
         }
-        fetch('/api/send-email',options)
+        fetch('https://inventoflow.onrender.com/api/send-email',options)
         .then(res=>res.json())
         .then(data=>{
             if(data.status === 'SUCCESS'){

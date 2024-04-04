@@ -55,10 +55,11 @@ function Signup() {
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
+        credentials:'include',
         body: JSON.stringify(data),
       };
 
-      await fetch("/api/usersignup", reqdata)
+      await fetch("https://inventoflow.onrender.com/api/usersignup", reqdata)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);

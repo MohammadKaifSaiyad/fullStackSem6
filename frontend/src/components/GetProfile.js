@@ -73,6 +73,7 @@ function GetProfile() {
           // headers: {
           //   'Content-Type': 'multipart/form-data',
           // },
+          withCredentials:true,
           body:JSON.stringify({'area_name':area, 'email':data.email})
         }).then(res=>res.data)
         .then(data=>{

@@ -36,13 +36,14 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
       fetchItemsByArea(selectedArea);
       return;
     }
-    const url = `/items/search/${searchRef.current.value}`
+    const url = `https://inventoflow.onrender.com/items/search/${searchRef.current.value}`
     // console.log(url)
     const option = {
       method:"POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+      credentials:'include',
       body: JSON.stringify({"area_id":selectedArea})
     }
     fetch(url,option)
