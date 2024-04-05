@@ -1,18 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.6807ee40.css",
-    "main.js": "/static/js/main.f9aac2f0.js",
+    "main.css": "/static/css/main.f68ef605.css",
+    "main.js": "/static/js/main.8596e43e.js",
     "static/media/act_login.jpg": "/static/media/act_login.c856568e9172b688f934.jpg",
+    "static/media/MyPhoto.jpg": "/static/media/MyPhoto.24729ba41ad4c93612a3.jpg",
     "static/media/default-placeholder.png": "/static/media/default-placeholder.6ae9a64d1242362cb18f.png",
-    "static/media/myImg.jpeg": "/static/media/myImg.d421ccb17c9899a41426.jpeg",
     "static/media/logo-white-transparent.png": "/static/media/logo-white-transparent.b505050992ea563dfb63.png",
+    "static/media/inventoflow-high-resolution-logo-transparent-footer.png": "/static/media/inventoflow-high-resolution-logo-transparent-footer.222800e576709fb801b4.png",
     "static/media/user_profile_default.webp": "/static/media/user_profile_default.e99e3371fa5820c0e4f8.webp",
     "index.html": "/index.html",
-    "main.6807ee40.css.map": "/static/css/main.6807ee40.css.map",
-    "main.f9aac2f0.js.map": "/static/js/main.f9aac2f0.js.map"
+    "main.f68ef605.css.map": "/static/css/main.f68ef605.css.map",
+    "main.8596e43e.js.map": "/static/js/main.8596e43e.js.map"
   },
   "entrypoints": [
-    "static/css/main.6807ee40.css",
-    "static/js/main.f9aac2f0.js"
+    "static/css/main.f68ef605.css",
+    "static/js/main.8596e43e.js"
   ]
 }
