@@ -214,7 +214,7 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
               <div className="flex">
                 <button
                   onClick={handleAddPart}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-5"
+                  className="bg-customeColor-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-5"
                   disabled={maxPart == 7}
                 >
                   Add Part
@@ -284,7 +284,7 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
             ></textarea>
             <button
               type="submit"
-              className="mt-5 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-5"
+              className="mt-5 bg-customeColor-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-5"
             >
               {editService?"Update Maintenance":"Add Maintenance"}
             </button>
