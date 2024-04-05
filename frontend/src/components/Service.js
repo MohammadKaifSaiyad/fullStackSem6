@@ -4,9 +4,11 @@ import {
     ListItemPrefix,
     Card,
   } from "@material-tailwind/react";
-const Service = ({item, service}) => {
+const Service = ({setSelectedItem, setSelectedService, item, service}) => {
     const handleShowService =()=>{
         console.log(item, service);
+        setSelectedItem(item?item:null);
+        setSelectedService(service?service:null);
     }
   return (
     <ListItem onClick={handleShowService} className='p-1 w-full'>

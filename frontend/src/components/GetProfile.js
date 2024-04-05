@@ -112,7 +112,7 @@ function GetProfile() {
             />
         </div>
         <div class="input-box">
-                <input type="text" placeholder="Enter area or session name" id='area_name' onChange={e=>{setArea(e.target.value)}} onInput={e=>{setArea(e.target.value)}} value={area} required/>
+                <input type="text" placeholder="Enter Department Name" id='area_name' onChange={e=>{setArea(e.target.value)}} onInput={e=>{setArea(e.target.value)}} value={area} required/>
                 <i class='bx bx-otp'></i>
         </div>
         <button type="submit" class="btn">Add</button>

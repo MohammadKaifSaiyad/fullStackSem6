@@ -7,6 +7,7 @@ import scannerAnimation from './img/Animation - scanner.json'
 import alertAnimation from './img/Animation - alert.json'
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
+import { Footer } from './Footer';
 function Home(){
     const animationOptions = {
         loop: true,
@@ -52,7 +53,7 @@ function Home(){
     
     <>
         <Header scrollToFeacture={scrollToFeacture}/>
-        <div className='flex flex-row mx-auto w-4/6 mt-24 z-0'>
+        <div className='flex flex-row mx-auto w-4/6 mt-24 z-0 '>
             <div className='w-3/6 self-center'>
                 <div className='text-6xl text-justify self-center  font-semibold text-customeColor-300  justify-self-center'>Inventory Management Reinvented</div>
                 <div className='p-1 flex'><div className='animate-bounce duration-1000 me-0.5 text-customeColor-400 font-medium text-xl'>InventoFlow</div> <p className='text-customeColor-200 text-xl font-normal'>Where Maintenance Meets Efficiency.</p></div>
@@ -91,6 +92,7 @@ function Home(){
                 </div>
             </div>
         </div>
+        <Footer />
     </>
     );
 }

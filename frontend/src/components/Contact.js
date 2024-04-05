@@ -3,6 +3,7 @@ import constactusAnimeData from './img/Animation - contact.json'
 import Lottie from 'react-lottie'
 import Header from './Header'
 import { toast, ToastContainer } from 'react-toastify'
+import { Footer } from './Footer'
 
 const Contact = () => {
     const animationContact = {
@@ -46,7 +47,7 @@ const Contact = () => {
         <ToastContainer/>
         <Header/>
         <div className='text-3xl font-medium mt-8 text-center text-customeColor-400'>Contact Us</div>
-            <div className='flex flex-row mt-10 mx-16 justify-items-center items-center'>
+            <div className='flex flex-row my-12 mx-16 justify-items-center items-center'>
                 <div className='w-3/6'>
                     <form onSubmit={handleSubmit} className="space-y-8 w-5/6">
                         <div>
@@ -69,6 +70,7 @@ const Contact = () => {
                     <Lottie options={animationContact}/>
                 </div>
             </div>
+            <Footer/>
     </div>
   )
 }

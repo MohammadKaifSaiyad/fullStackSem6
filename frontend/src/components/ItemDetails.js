@@ -46,7 +46,7 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
       "qrcode":selectedItem.qrCode,
     }
     console.log(`/items/generateqr/${selectedItem._id}`)
-    await axios.get(`http://localhost:5000/items/generateqr/${selectedItem._id}`)
+    await axios.get(`https://inventoflow.onrender.com/items/generateqr/${selectedItem._id}`)
     .then(res=>res.data)
     .then(data=>{
       if(data.status === 'SUCCESS'){
@@ -347,27 +347,26 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
       {
        selectedService ? (
         <div className="fixed inset-0 flex flex-row items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-          
-  <div className="bg-white flex flex-col p-2 rounded-md shadow-md">
-  <IoCloseOutline className='text-black self-end cursor-pointer size-7' onClick={()=>{setSelectedService(false)}}/>
-    <div className="ml-2 text-xl">Service Details</div>
-    <div className='flex flex-row p-2 items-center'>
-      <div className='flex flex-col justify-center ms-2'>
-        <p className='text-black m-2'>serviceDate: {selectedService.serviceDate}</p>
-        <p className='text-black m-2'>serviceType: {selectedService.serviceType}</p>
-        <p className='text-black m-2'>serviceDescription: {selectedService.description}</p>
-        {
-        selectedService.parts[0]?
-        <div className='flex flex-col justify-center ms-2'>
-        <div className="border border-black rounded-2">
-        <div className='text-black text-lg m-2'>service parts</div>
-         {selectedService.parts.map(part=><div className="flex">
-          <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
-          <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
-         </div>)}
-        <div className="ml-4">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
-        </div>
-      </div>:<></>
+          <div className="bg-white flex flex-col p-2 rounded-md shadow-md">
+            <IoCloseOutline className='text-black self-end cursor-pointer size-7' onClick={()=>{setSelectedService(false)}}/>
+            <div className="ml-2 text-xl">Service Details</div>
+            <div className='flex flex-row p-2 items-center'>
+              <div className='flex flex-col justify-center ms-2'>
+                <p className='text-black m-2'>serviceDate: {selectedService.serviceDate}</p>
+                <p className='text-black m-2'>serviceType: {selectedService.serviceType}</p>
+                <p className='text-black m-2'>serviceDescription: {selectedService.description}</p>
+                {
+                  selectedService.parts[0]?
+                  <div className='flex flex-col justify-center ms-2'>
+                    <div className="border border-black rounded-2">
+                      <div className='text-black text-lg m-2'>service parts</div>
+                        {selectedService.parts.map(part=><div className="flex">
+                          <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
+                          <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
+                        </div>)}
+                    <div className="ml-4">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
+                  </div>
+                </div>:<></>
       }
       </div>
       {

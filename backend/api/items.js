@@ -252,10 +252,10 @@ router.post('/searchservice/:key', checkCookies, async (req, res)=>{
     try{
         const items = await itemModel.find({
             "$or":[
-                {"name":{$regex: req.params.key}},
-                {"serialNumber":{$regex:req.params.key}},
-                {"servicePending.serviceDate":{$regex:req.params.key}},
-                {"servicesHistory.serviceDate":{$regex:req.params.key}}
+                {"name":{$regex: new RegExp(req.params.key, 'i')}},
+                {"serialNumber":{$regex: new RegExp(req.params.key, 'i')}},
+                {"servicePending.serviceDate":{$regex: new RegExp(req.params.key, 'i')}},
+                {"servicesHistory.serviceDate":{$regex: new RegExp(req.params.key, 'i')}}
             ],
             "$and":[{user:req.body.user_id}]
         }).populate('servicesHistory').populate('servicePending').then(items=>{
@@ -284,13 +284,13 @@ router.post('/searchservice/:key', checkCookies, async (req, res)=>{
     }
 })
 
-router.post('/search/:key',checkCookies, async(req,res)=>{
+router.post('/search/:key', checkCookies, async(req,res)=>{
     console.log(req.params.key);
     if(req.body.type==="byUserId"){
         itemModel.find({
             "$or":[
-                {"name":{$regex:req.params.key}},
-                {"serialNumber":{$regex:req.params.key}}
+                {"name":{$regex:new RegExp(req.params.key, 'i')}},
+                {"serialNumber":{$regex:new RegExp(req.params.key, 'i')}}
             ],
             "$and":[{user:req.body.user_id}]
         }).then(data=>{
@@ -311,8 +311,8 @@ router.post('/search/:key',checkCookies, async(req,res)=>{
     }
     itemModel.find({
         "$or":[
-            {"name":{$regex:req.params.key}},
-            {"serialNumber":{$regex:req.params.key}}
+            {"name":{$regex:new RegExp(req.params.key, 'i')}},
+            {"serialNumber":{$regex:new RegExp(req.params.key, 'i')}}
         ],
         "$and":[{user:req.body.user_id, area:req.body.area_id}]
     }).then(data=>{
@@ -784,7 +784,7 @@ router.post('/getallservices', checkCookies, async(req, res)=>{
     console.log("fetching ServiceList :")
     try{
     console.log("fetching ServiceList :----------------------------------------------------", req.body.user_id)
-        const items = await itemModel.find({user:req.body.user_id}).populate('servicesHistory').populate('servicePending')
+        const items = await itemModel.find({user:req.body.user_id}).populate('area').populate('servicesHistory').populate('servicePending')
         const services = [];
         console.log("itemsList :", items)
         await items.map(item => {
