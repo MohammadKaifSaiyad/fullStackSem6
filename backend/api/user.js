@@ -239,6 +239,7 @@ router.post("/getuserdata", checkCookies, (req, res) => {
 // const keyFile = require("./googledrive.json");
 const keyFile = require("../googledrive.json");
 const { json } = require("body-parser");
+const { checkIsAdmin } = require("../auth/checkIsAdmin");
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
 
 const auth = new google.auth.GoogleAuth({
@@ -299,6 +300,7 @@ router.post("/createloggedinuser", async (req, res) => {
         hashedPassword: user.hashedPassword,
         signupDate: Date.now(),
         profileImgUrl: url,
+        isAdmin:false
       });
       userData.areas.push(area_id);
       userData.save().then((res) => {
@@ -319,6 +321,24 @@ router.post("/createloggedinuser", async (req, res) => {
   });
   return res;
 });
+
+router.post('/admin', checkCookies, checkIsAdmin,async(req, res)=>{
+  try{
+    const users = await loggedinuser.find({}).populate('area').populate('servicePending').populate('servicesHistory');
+    res.json({
+      status: 'SUCCESS',
+      users: users,
+  });
+  return res;
+  }catch(err){
+    console.err('Error: ', err);
+        res.json({
+            status: 'FAILED',
+            message: 'something went wrong!'
+        });
+        return res;
+  }
+})
 
 
 module.exports = router;

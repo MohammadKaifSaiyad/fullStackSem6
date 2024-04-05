@@ -23,10 +23,10 @@ const ItemSchema = new db.Schema({
         default:null
     },
     area:{
-        type: db.Schema.Types.ObjectId
+        type: db.Schema.Types.ObjectId, ref:'Area'
     },
     user:{
-        type:db.Schema.Types.ObjectId
+        type:db.Schema.Types.ObjectId, ref:'loggedinuserdata'
     },
     serialNumber:{
         type:String,

@@ -95,7 +95,7 @@ function AddArea({areaList, areaData, setAreaData, fetchUserAreas}) {
     setAreaData(areaObj);
   }
   return (
-    <div className="bg-customeColor-200 h-full flex flex-row w-full">
+    <div className="bg-white h-full flex flex-row w-full">
       <ToastContainer/>
       <dvi className="w-3/6">
         <form class="max-w-sm mx-12 my-12">
@@ -107,11 +107,11 @@ function AddArea({areaList, areaData, setAreaData, fetchUserAreas}) {
             <label htmlFor="location" class="block mb-2 text-lg font-medium text-gray-900 font-sans   dark:text-white">Location</label>
             <input type="text" name="area_location" disabled={false} value={areaData.area_location} onChange={handelChange} id="location" class="bg-gray-50 font-sans border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Department Location"/>
           </div>
-          <button type='button' onClick={handleAddArea} disabled={delay || !(areaData.name!='')} class="text-white bg-customeColor-400 hover:bg-blue-800 focus:ring-4 font-sans focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{edit?"Edit":"Add"}</button>
+          <button type='button' onClick={handleAddArea} disabled={delay || !(areaData.name!='')} class="text-white bg-customeColor-300 hover:bg-blue-800 focus:ring-4 font-sans focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{edit?"Edit":"Add"}</button>
         </form>
       </dvi>
       <div className="w-3/6 flex flex-col p-10">
-        <button onClick={handleEditArea} className="text-white self-center justiry-self-center bg-customeColor-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg font-sans text-md h-10 sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{editArea? "Enable Add Department": "Edit Department"}</button>
+        <button onClick={handleEditArea} className="text-white self-center justiry-self-center bg-customeColor-300 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg font-sans text-md h-10 sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{editArea? "Enable Add Department": "Edit Department"}</button>
         {
           editArea && 
           <div className="flex mt-5 bg-customeColor-300 flex-col border-2 rounded-lg border-customeColor-100">

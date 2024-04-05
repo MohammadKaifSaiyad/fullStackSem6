@@ -101,12 +101,14 @@ const Services = () => {
                     {
                     //  !networkCall ? serviceList.map((service) => (<List><Service service={service} /></List>
                     !networkCall ? (itemList? itemList.map((item) => {
+                        const displayService=[];
                         if(item.servicePending[0]){
-                          return item.servicePending.map((service)=><List><Service setSelectedItem={setSelectedItem} setSelectedService={setSelectedService} item={item} service={service} /></List>);
+                          item.servicePending.map((service)=>{ displayService.push(<List><Service setSelectedItem={setSelectedItem} setSelectedService={setSelectedService} item={item} service={service} /></List>)})
                         }
                         if(item.servicesHistory[0]){
-                          return item.servicesHistory.map((service)=><List><Service setSelectedItem={setSelectedItem} setSelectedService={setSelectedService} item={item} service={service} /></List>);
+                          item.servicesHistory.map((service)=>{ displayService.push(<List><Service setSelectedItem={setSelectedItem} setSelectedService={setSelectedService} item={item} service={service} /></List>)});
                         }
+                        return displayService.map(service=>service);
                     }
                     ): <div className='text-lg'>No Service Found</div>):<ShimmerCategoryList title items={4} categoryStyle="STYLE_ONE" />
                     
@@ -136,7 +138,7 @@ const Services = () => {
                           <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
                           <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
                         </div>)}
-                    <div className="ml-4">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
+                    <div className="ml-4 text-md font-medium">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
                   </div>
                 </div>:<></>
       }

@@ -30,6 +30,10 @@ const LoggedinUserSchema = new db.Schema({
     },
     areas:{
         type:[{type: db.Schema.Types.ObjectId, ref: 'Area'}]
+    },
+    isAdmin:{
+        type: Boolean,
+        default: false
     }
 });
 

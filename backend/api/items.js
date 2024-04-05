@@ -780,7 +780,7 @@ router.post('/confirmservice', checkCookies, async (req, res)=>{
     }
 })
 
-router.post('/getallservices', checkCookies,async(req, res)=>{
+router.post('/getallservices', checkCookies, async(req, res)=>{
     console.log("fetching ServiceList :")
     try{
     console.log("fetching ServiceList :----------------------------------------------------", req.body.user_id)

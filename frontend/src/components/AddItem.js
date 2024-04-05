@@ -189,7 +189,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
     };
   },[])
   return (
-    <div className="bg-customeColor-200 h-full">
+    <div className="bg-white h-full">
       <ToastContainer/>
       <form class="mx-12 my-12" onSubmit={update? handleUpdateItem : handleAddItem} encType='multipart/form-data'>
         <div className="flex">
@@ -261,7 +261,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
 
         <div class="my-5 w-80 flex">
             <input
-              class="accent-customeColor-400 w-5 h-5 mr-2"
+              class="accent-customeColor-300 w-5 h-5 mr-2"
               type="checkbox"
               value=""
               id="generate_qr"
@@ -280,7 +280,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
         <button
           type='submit'
           disabled={delay}
-          class="text-white mt-2 bg-customeColor-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="text-white mt-2 bg-customeColor-300 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           
         >
           {update? "Update":"Add"}
