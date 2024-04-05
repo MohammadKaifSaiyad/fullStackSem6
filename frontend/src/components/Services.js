@@ -104,7 +104,7 @@ const Services = () => {
                         if(item.servicePending[0]){
                           return item.servicePending.map((service)=><List><Service setSelectedItem={setSelectedItem} setSelectedService={setSelectedService} item={item} service={service} /></List>);
                         }
-                        else if(item.servicesHistory[0]){
+                        if(item.servicesHistory[0]){
                           return item.servicesHistory.map((service)=><List><Service setSelectedItem={setSelectedItem} setSelectedService={setSelectedService} item={item} service={service} /></List>);
                         }
                     }
