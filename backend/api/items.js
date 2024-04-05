@@ -780,11 +780,11 @@ router.post('/confirmservice', checkCookies, async (req, res)=>{
     }
 })
 
-router.post('/getallservices', checkCookies, async(req, res)=>{
+router.post('/getallservices', checkCookies,async(req, res)=>{
     console.log("fetching ServiceList :")
     try{
     console.log("fetching ServiceList :----------------------------------------------------", req.body.user_id)
-        const items = await itemModel.find({user:req.body.user_id}).populate('area').populate('servicesHistory').populate('servicePending')
+        const items = await itemModel.find({user:req.body.user_id}).populate('servicesHistory').populate('servicePending').populate('area')
         const services = [];
         console.log("itemsList :", items)
         await items.map(item => {
