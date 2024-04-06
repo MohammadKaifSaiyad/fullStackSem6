@@ -64,6 +64,7 @@ const GenerateQRList=({fetchItemsByArea, setSelectedArea, setSelectedItemFromP})
           }
         }).catch(err=>{
           toast.error("Error while searching!");
+          console.error('Error: ',err);
         })
       }
       useEffect(()=>{fetchAllItems()},[])

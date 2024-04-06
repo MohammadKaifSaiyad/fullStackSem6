@@ -56,6 +56,7 @@ function Items({selectedArea, fetchItemsByArea, itemList, selectedItem, setSelec
       }
     }).catch(err=>{
       toast.error("Error while searching!");
+      console.log('Error: ',err);
     })
   }
   return (

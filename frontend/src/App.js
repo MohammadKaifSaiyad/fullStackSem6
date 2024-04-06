@@ -14,6 +14,7 @@ import { useState } from 'react';
 import Contact from './components/Contact';
 import ForgotPwd from './components/ForgotPwd';
 import ResetPwd from './components/ResetPwd';
+import Admin from './components/Admin';
 function App() {
   const [viewOnly, setViewOnly] = useState(false);
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route exact path='/view/itemdetails/:itemId' element={<ViewItem/>}/>
         <Route exact path='/forgotpwd' element={<ForgotPwd/>} />
         <Route exact path='/reset-pwd' element={<ResetPwd/>} />
+        <Route exact path='/admin' element={<Admin />} />
       </Routes>
     </div>
     </Context.Provider>

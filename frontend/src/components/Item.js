@@ -35,6 +35,7 @@ function Item({ item, selectedItem, setSelectedItem}) {
     })
     .catch(err=>{
       toast.error('Error while retrieving item Details!')
+      console.error('Error: ',err)
     })
   }
   return (

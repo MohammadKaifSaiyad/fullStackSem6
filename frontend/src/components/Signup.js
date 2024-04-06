@@ -11,6 +11,7 @@ import { FaLockOpen, FaLock } from "react-icons/fa";
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [delay, setDelay]= useState(false);
+  const [showMessage, setShowMessage]= useState(false);
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -66,13 +67,21 @@ function Signup() {
           if (data.status == "SUCCESS") {
             const data2 = { username: username, email: email };
             sessionStorage.setItem("userdata", JSON.stringify(data2));
-            setDelay(false);
             navigate("/verifyemail");
+            setDelay(false);
           }
           else{
             toast.error(data.message);
+            toast.error('Go Back and try agian!');
           }
-        });
+          setDelay(false);
+          setShowMessage(false);
+        }).catch(err=>{
+          toast.error('Something went wrong!');
+          toast.error('Go Back and try agian!');
+          setDelay(false);
+          setShowMessage(false);
+        })
     } else {
       console.log("error during data filling");
     }
@@ -128,7 +137,6 @@ function Signup() {
             />
             <i class="bx bx-envelope"></i>
           </div>
-
           <div class="input-box">
             <input
               type="password"
@@ -174,6 +182,20 @@ function Signup() {
           </div>
           
         </form>
+        {
+          showMessage?
+          <>
+            <div className="fixed inset-0 flex flex-row items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+              <div className="bg-white flex flex-col p-4 rounded-md shadow-md">
+                <div className="font-sans text-xl font-medium my-3 mx-3">Check your Mail Box</div>
+                <button className="mt-4 px-4 py-2 bg-Custome-300 text-white rounded-md self-end justify-end" onClick={()=>{setShowMessage(false)}}>
+                  Ok
+                </button>
+              </div>
+            </div>
+          </>
+          :null
+        }
       </div>
     </div>
   );

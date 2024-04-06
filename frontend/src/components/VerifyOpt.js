@@ -3,6 +3,7 @@ import User from './UserDashboard';
 import { useNavigate } from "react-router-dom";
 import './VerifyOtp.css'
 import { Link } from 'react-router-dom';
+import { toast ,ToastContainer} from "react-toastify";
 function VerifyOpt() {
   const [otp, setOtp] = useState('');
   const [isLinkFrozen, setLinkFrozen] = useState(false);
@@ -92,7 +93,15 @@ function VerifyOpt() {
       if(data.status == 'SUCCESS'){
         navigate('/getprofile');
       }
-    });
+      else{
+        toast.error(data.message);
+        toast.error('Go Back and try agian!');
+      }
+    }).catch(err=>{
+      toast.error('Something went wrong!');
+      toast.error('Go Back and try agian!');
+      console.error('Error: ',err);
+    })
     console.log('aftercalling')
  }
   return (

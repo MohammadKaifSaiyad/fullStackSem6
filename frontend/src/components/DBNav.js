@@ -3,6 +3,7 @@ import { FaBell } from 'react-icons/fa';
 import { IoCloseOutline, IoNotificationsCircleOutline } from "react-icons/io5";
 import './DBNav.css';
 import { useNavigate } from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
 // import { options } from '../../../backend/api/items';
 // import CloseButton from 'react-bootstrap/CloseButton';
 // import { CCloseButton } from '@coreui/react'
@@ -64,6 +65,14 @@ function DBNav({fetchUserProfile, userProfile}) {
         // console.log('setNotifiations: ', data.notifications)
         // console.log("data: ",data);
       }
+      else{
+        toast.error(data.message);
+      }
+    })
+    .catch(err=>{
+      console.error('Error: ',err);
+      toast.error('cannot fetch notifications');
+      toast.error('Go back and login again');
     })
   }
   useEffect(()=>{
@@ -72,6 +81,7 @@ function DBNav({fetchUserProfile, userProfile}) {
   
   return (
     <div className='db-nav bg-customeColor-400 text-white'>
+      <ToastContainer/>
       <div className='nav-text'>Dashboard</div>
       <div className='nav-bell'>
         <FaBell onClick={handleShowNotification} color={notifications? "red":"white"}/>

@@ -26,7 +26,13 @@ const ForgotPwd = () => {
             }
             else{
               toast.error(data.message);
+              toast.error('Go back and try again');
             }
+        })
+        .catch(err=>{
+          toast.error('Go back');
+          toast.error('Something went wrong');
+          console.error('Error: ',err);
         })
     }
     const handleVefiryOtp =async(e)=>{
@@ -48,7 +54,13 @@ const ForgotPwd = () => {
                 navigate('/reset-pwd')
             }else{
               toast.error(data.message);
+              toast.error('Go back');
             }
+        })
+        .catch(err=>{
+          toast.error('Go back');
+          toast.error('Something went wrong');
+          console.error('Error: ',err);
         })
     }
   return (

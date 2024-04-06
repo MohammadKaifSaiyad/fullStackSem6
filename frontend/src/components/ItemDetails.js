@@ -172,6 +172,10 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
         toast.error(data.message);
       }
     })
+    .catch(err=>{
+      toast.error('Error while fetching!');
+      console.error('Error: ',err);
+    })
   }
   useEffect(()=>{
     checkParam();
@@ -207,6 +211,11 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
       }else{
         toast.error(data.message);
       }
+    })
+    .catch(err=>{
+      toast.error('Error while deleting!');
+      navigate('/user');
+      console.error('Error: ',err);
     })
   }
   function getSum(inti,part){
@@ -349,22 +358,22 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
         <div className="fixed inset-0 flex flex-row items-center justify-center bg-gray-800 bg-opacity-75 z-50">
           <div className="bg-white flex flex-col p-2 rounded-md shadow-md">
             <IoCloseOutline className='text-black self-end cursor-pointer size-7' onClick={()=>{setSelectedService(false)}}/>
-            <div className="ml-2 text-xl">Service Details</div>
+            <div className="ml-2 text-2xl font-medium">Service Details</div>
             <div className='flex flex-row p-2 items-center'>
               <div className='flex flex-col justify-center ms-2'>
-                <p className='text-black m-2'>serviceDate: {selectedService.serviceDate}</p>
-                <p className='text-black m-2'>serviceType: {selectedService.serviceType}</p>
-                <p className='text-black m-2'>serviceDescription: {selectedService.description}</p>
+                <p className='text-black text-lg font-medium m-2'>Service Date: {selectedService.serviceDate}</p>
+                <p className='text-black text-lg font-medium  m-2'>serviceType: {selectedService.serviceType}</p>
+                <p className='text-black m-2'>Service Description: {selectedService.description?selectedService.description:"N/A"}</p>
                 {
                   selectedService.parts[0]?
                   <div className='flex flex-col justify-center ms-2'>
                     <div className="border border-black rounded-2">
-                      <div className='text-black text-lg m-2'>service parts</div>
+                      <div className='text-black text-xl font-medium m-2'>Service Parts</div>
                         {selectedService.parts.map(part=><div className="flex">
-                          <p className='text-black ml-4 mb-2'>part name: {part.partName}</p>
-                          <p className='text-black ml-4 mb-2'>part cost: {part.partCost}</p>
+                          <p className='text-black ml-4 text-lg font-medium mb-2'>Part Name: {part.partName}</p>
+                          <p className='text-black ml-4 text-lg font-medium mb-2'>Part Cost: {part.partCost}</p>
                         </div>)}
-                    <div className="ml-4">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
+                    <div className="ml-4 text-lg font-medium">Total cost: {selectedService.parts.reduce(getSum,0)}</div>
                   </div>
                 </div>:<></>
       }
@@ -373,14 +382,14 @@ function ItemDetails({ selectedItem, setSelectedItem, edit, setEdit, fetchItemsB
         selectedService.providerDetails.name?
         <div className='flex flex-col justify-center ms-2'>
         <div className="border border-black p-2">
-          <div className='text-black text-lg m-2'>service provider</div>
+          <div className='text-black text-xl font-medium  m-2'>Service Provider</div>
           <div className="flex">
             <div>
-              {selectedService.providerDetails.name&&<p className='text-black ml-4 mb-2'>Name: {selectedService.providerDetails.name}</p>}
-              {selectedService.providerDetails.contactNumber&&<p className='text-black ml-4 mb-2'>Number: {selectedService.providerDetails.contactNumber}</p>}
-              {selectedService.providerDetails.contactEmail&&<p className='text-black ml-4 mb-2'>Email: {<button onClick={composeEmail}>{selectedService.providerDetails.contactEmail}</button>}</p>}
+              {selectedService.providerDetails.name&&<p className='text-black text-lg font-medium ml-4 mb-2'>Name: {selectedService.providerDetails.name}</p>}
+              {selectedService.providerDetails.contactNumber&&<p className='text-black text-lg font-medium ml-4 mb-2'>Number: {selectedService.providerDetails.contactNumber}</p>}
+              {selectedService.providerDetails.contactEmail&&<p className='text-black text-lg font-medium ml-4 mb-2'>Email: {<button onClick={composeEmail}>{selectedService.providerDetails.contactEmail}</button>}</p>}
             </div>
-            {selectedService.providerDetails.description && <p className='text-black ml-4 mb-2'>description: {selectedService.providerDetails.description}</p>}
+            {selectedService.providerDetails.description && <p className='text-black ml-4 mb-2'>Description: {selectedService.providerDetails.description}</p>}
           </div>
           
         </div>

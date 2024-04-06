@@ -49,7 +49,12 @@ const ResetPwd= () => {
             }
             else{
               toast.error(data.message)
+              navigate('/');
             }
+        }).catch(err=>{
+          toast.error('Error while resetin password!');
+          navigate('/');
+          console.error('Error: ',err);
         })
       }
   return (

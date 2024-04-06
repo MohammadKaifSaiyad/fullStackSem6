@@ -146,6 +146,7 @@ function AddItem({itemData, setItemData, selectedArea, fetchItemsByArea, setSele
     });
     }catch(err){
       console.log(err);
+      toast.error('Errord while adding item');
     }
     
   }

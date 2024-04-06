@@ -39,14 +39,21 @@ function AddArea({areaList, areaData, setAreaData, fetchUserAreas}) {
     .then(data=>{
       if(data.status ==='SUCCESS'){
         console.log("data is recived")
-        setDelay(false);
         setAreaData({
           area:"",
           area_location:""
         })
         navigate('/user');
         fetchUserAreas();
+      }else{
+        toast.error(data.message);
       }
+      setDelay(false);
+    })
+    .catch(err=>{
+      toast.error('Error while adding area!');
+      console.error('error: ', err);
+      setDelay(false);
     })
   }
   const handleDeleteArea = async(area)=>{

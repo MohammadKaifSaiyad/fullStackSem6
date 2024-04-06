@@ -77,8 +77,16 @@ function User() {
         if(data.status =='SUCCESS'){
           setItemList(data.item_list);
           navigae('/user/items');
+        }else{
+          toast.error(data.message);
+          toast.error('Go Back and try agian!');
         }
+      }).catch(err=>{
+        toast.error('Something went wrong!');
+        toast.error('Go Back and try agian!');
+        console.error('Error: ',err);
       })
+      
       // const response = await axios.post('http://localhost:5000/items/getitems',{
       //   Headers:{'content-type': 'application/json'},
       //   data:await JSON.stringify({area_id:selectedArea_by})
@@ -104,7 +112,15 @@ function User() {
       if(data.status === 'SUCCESS'){
         console.log("inside fetch areas")
         setAreaList({areas:data.areasId});
+      }else{
+        toast.error(data.message);
+        toast.error('Go Back and try agian!');
       }
+    })
+    .catch(err=>{
+      toast.error('Something went wrong!');
+      toast.error('Go Back and try agian!');
+      console.error('Error: ',err);
     })
     console.log("arealist: ", areaList);
   };

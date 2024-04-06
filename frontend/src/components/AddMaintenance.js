@@ -74,18 +74,34 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
       else{
         toast.error(data.message);
       }
+      setServiceData({
+        "service_date":"",
+        "service_type":"",
+        "service_parts":[],
+        "service_description":"",
+        "provider_name":"",
+        "provider_email":"",
+        "provider_number":"",
+        "provider_details":""
+      })
+      setParts([]);
     })
-    setServiceData({
-      "service_date":"",
-      "service_type":"",
-      "service_parts":[],
-      "service_description":"",
-      "provider_name":"",
-      "provider_email":"",
-      "provider_number":"",
-      "provider_details":""
+    .catch(err=>{
+      console.log('error:',err);
+      toast.error('Error while adding maintenance');
+      setServiceData({
+        "service_date":"",
+        "service_type":"",
+        "service_parts":[],
+        "service_description":"",
+        "provider_name":"",
+        "provider_email":"",
+        "provider_number":"",
+        "provider_details":""
+      })
+      setParts([]);
     })
-    setParts([]);
+    
   }
 
   const handleAddMaintenance = async(e)=>{
@@ -116,6 +132,7 @@ function AddMaintenance({selectedItem, setSelectedItem, setEdit, edit, selectedS
     }).catch(err=>{
       setDelay(false);
       console.log('error:',err);
+      toast.error('Error while adding maintenance');
     })
     setServiceData({
       "service_date":"",

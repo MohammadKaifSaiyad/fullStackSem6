@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './GetProfile.css';
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
+import {toast, ToastContainer} from 'react-toastify';
 
 function GetProfile() {
     const [area, setArea] = useState('');
@@ -83,12 +84,14 @@ function GetProfile() {
         })
       } catch (error) {
         console.error('Error uploading image:', error);
+        toast.error('Error in uploading image');
       }
     }
 
     
   return (
     <div className='getprofile-container'>
+      <ToastContainer />
     <div className='wrapper'>
       <form onSubmit={handleCreatingUser} encType='multipart/form-data'>
         <div className="profile-image-container">

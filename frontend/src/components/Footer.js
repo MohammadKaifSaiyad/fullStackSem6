@@ -29,7 +29,7 @@ export const Footer = () => {
               <div>
                   <h2 class="mb-6 text-sm font-semibold text-customeColor-300 uppercase dark:text-white">Follow us</h2>
                   <ul class="text-customeColor-400 dark:text-gray-400 font-medium">
-                      <li className="mb-4 hover:underline cursor-pointer" onClick={()=>{window.location.href='https://github.com/MohammadKaifSaiyad/fSDPollapp/'}}>
+                      <li className="mb-4 hover:underline cursor-pointer" onClick={()=>{window.location.href='https://github.com/MohammadKaifSaiyad/fullStackSem6/'}}>
                           Github
                       </li>
                       <li className="mb-4 hover:underline cursor-pointer" onClick={()=>{window.location.href='https://www.linkedin.com/in/mohammad-kaif-saiyad'}}>

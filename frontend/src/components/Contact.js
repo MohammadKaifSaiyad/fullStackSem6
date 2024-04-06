@@ -35,11 +35,25 @@ const Contact = () => {
         .then(res=>res.json())
         .then(data=>{
             if(data.status === 'SUCCESS'){
-
+                toast.success('Message sent successfully.')
             }else{
                 toast.error(data.message);
                 console.error(data.message);
             }
+            setData({
+                userEmail:"",
+                subject:"",
+                message:""
+            });
+        })
+        .catch(err=>{
+            console.error('Error', err);
+            toast.error('Something went wrong');
+            setData({
+                userEmail:"",
+                subject:"",
+                message:""
+            });
         })
     }
   return (
@@ -47,8 +61,8 @@ const Contact = () => {
         <ToastContainer/>
         <Header/>
         <div className='text-3xl font-medium mt-8 text-center text-customeColor-400'>Contact Us</div>
-            <div className='flex flex-row my-12 mx-16 justify-items-center items-center'>
-                <div className='w-3/6'>
+            <div className='flex 2xl:flex-row xl:flex-row lg:flex-row flex-col 2xl:my-12 xl:my-12 lg:my-12 my-3 2xl:mx-16 xl:mx-16 lg:mx-16 mx-2 justify-items-center items-center'>
+                <div className='2xl:w-3/6 xl:w-3/6 lg:w-3/6 w-full'>
                     <form onSubmit={handleSubmit} className="space-y-8 w-5/6">
                         <div>
                             <label htmlFor="email" className="block mb-2 text-md font-medium text-gray-900 dark:text-gray-300">Your Email</label>
@@ -66,7 +80,7 @@ const Contact = () => {
                     {/* <button type="submit" className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Send message</button> */}
                     </form>
                 </div>
-                <div className='w-3/6'>
+                <div className='2xl:w-3/6 xl:w-3/6 lg:w-3/6 w-5/6'>
                     <Lottie options={animationContact}/>
                 </div>
             </div>
