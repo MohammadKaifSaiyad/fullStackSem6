@@ -14,7 +14,7 @@ function About(){
         <div className="flex xl:flex-row 2xl:flex-row lg:flex-row md:flex-row sm:flex-col flex-col items-center justify-items-center justify-evenly content-center justify-center">
             <Card className="w-96 justify-self-center self-center mt-36 bg-gradient-to-r from-customeColor-400 to-customeColor-200">
                 <CardHeader floated={false} className="h-80">
-                    <img src={require('./img/MyPhoto.jpg')}  alt="profile-picture" className="w-full h-100"/>
+                    <img src={require('./img/kaif.jpeg')}  alt="profile-picture" className="w-full h-100"/>
                 </CardHeader>
                 <CardBody className="text-center">
                     <Typography variant="h4" color="blue-gray" className="mb-2">
@@ -35,7 +35,7 @@ function About(){
             </Card>
             <Card className="w-96 justify-self-center self-center mt-36 bg-gradient-to-r from-customeColor-400 to-customeColor-200">
                 <CardHeader floated={false} className="h-80">
-                    {/* <img src={require('./img/MyPhoto.jpg')}  alt="profile-picture" className="w-full h-100"/> */}
+                    <img src={require('./img/sarthak.jpeg')}  alt="profile-picture" className="w-full h-100"/>
                 </CardHeader>
                 <CardBody className="text-center mb-2">
                     <Typography variant="h4" color="blue-gray" className="mb-2">
