@@ -40,7 +40,7 @@ const GenerateQRItem = ({fetchItemsByArea, item, setSelectedArea,setSelectedItem
   const handleShowItemDetails = ()=>{
     setSelectedItemFromP(item);
     setSelectedArea(item.area);
-    fetchItemsByArea(item.area);
+    // fetchItemsByArea(item.area);
     navigate("/user/item");
   }
   return (
