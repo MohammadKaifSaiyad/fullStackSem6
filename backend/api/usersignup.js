@@ -159,16 +159,21 @@ router.post('/send-email', async(req, res)=>{
             html: `<h3>Email: ${req.body.userEmail}</h3><h4>Subject: ${req.body.subject}</h4><p>Message: ${req.body.message}</p>`
         }
         await transporter.sendMail(mailOpetions)
-                .then(()=>{
-                    console.log("mail is sended");
-                }).catch(err=>{
-                    console.log("error due to sending mail",err)
-                    res.json({
-                        status: "FAILED",
-                        message: "Error while sending email",
-                      });
-                      return res;
-                });
+        res.json({
+            status: "SUCCESS",
+            message: "Error while sending email",
+          });
+          return res;
+                // .then(()=>{
+                //     console.log("mail is sended");
+                // }).catch(err=>{
+                //     console.log("error due to sending mail",err)
+                //     res.json({
+                //         status: "FAILED",
+                //         message: "Error while sending email",
+                //       });
+                //       return res;
+                // });
     }catch(err){
       console.error("error: ", err);
       res.json({
